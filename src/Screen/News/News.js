@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -35,44 +36,62 @@ const News = (props) => {
         'https://hoanghamobile.com/tin-tuc/wp-content/uploads/2020/04/1-41-696x464.jpg',
     },
   ]);
+  var deviceWidth = Dimensions.get('window').width;
   return (
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         {news.map((promotion) => (
-          <View style={{padding: 15}}>
-            <Text style={{fontSize: 14, fontWeight: '700', marginBottom: 7}}>
-              {promotion.title}
-            </Text>
+          <View style={{padding: 10}}>
             <View
-              style={{display: 'flex', flexDirection: 'row', marginBottom: 7}}>
-              <FontAwesomeIcon
-                icon={faHistory}
-                style={{marginRight: 7}}
-                size={15}
+              style={{
+                padding: 10,
+                backgroundColor: '#fff',
+                marginTop: 10,
+                borderRadius: 8,
+                elevation: 8,
+              }}>
+              <Image
+                width={347}
+                height={207}
+                source={{uri: promotion.image}}
+                style={{
+                  resizeMode: 'cover',
+                  width: deviceWidth - 40,
+                  height: 207,
+                }}
               />
-              <Text style={{fontSize: 12, fontWeight: '400'}}>
-                {promotion.expiration}
+              <Text style={{fontSize: 14, fontWeight: '700', marginBottom: 7}}>
+                {promotion.title}
+              </Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginBottom: 7,
+                }}>
+                <FontAwesomeIcon
+                  icon={faHistory}
+                  style={{marginRight: 7}}
+                  size={15}
+                />
+                <Text style={{fontSize: 12, fontWeight: '400'}}>
+                  {promotion.expiration}
+                </Text>
+              </View>
+              <Text style={{fontSize: 14, fontWeight: '500'}}>
+                {promotion.description}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '500',
+                  color: '#FF0000',
+                  marginBottom: 10,
+                }}
+                onPress={() => props.navigation.navigate('NewsDetail')}>
+                Xem chi tiết
               </Text>
             </View>
-            <Text style={{fontSize: 14, fontWeight: '500'}}>
-              {promotion.description}
-            </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                fontWeight: '500',
-                color: '#FF0000',
-                marginBottom: 10,
-              }}
-              onPress={() => props.navigation.navigate('NewsDetail')}>
-              Xem chi tiết
-            </Text>
-            <Image
-              width={347}
-              height={207}
-              source={{uri: promotion.image}}
-              style={{resizeMode: 'cover', width: 347, height: 207}}
-            />
           </View>
         ))}
       </ScrollView>

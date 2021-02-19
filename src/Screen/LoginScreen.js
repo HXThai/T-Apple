@@ -7,215 +7,247 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Images from '../Theme/Images';
 import Color from '../Theme/Color';
 import styles from './Styles/LoginScreenStyles';
-
+import LinearGradient from 'react-native-linear-gradient';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Logo from '../Theme/svg/logo3.svg';
+import signInService from '../Redux/Service/signInService';
+import storage from '../Screen/asyncStorage/Storage';
 
 const LoginScreen = (props) => {
   const [phone, onChanePhone] = useState('');
-  const [password, onChanePassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayPassword, setDisplayPassword] = useState(false);
+
+  const onLogin = (phone, password) => {
+    // props.navigation.navigate('TabNav');
+    // console.log(phone, '-', password);
+    signInService
+      .signIn({
+        phone: phone.trim(),
+        password: password.trim(),
+      })
+      .then(async function (response) {
+        // console.log(response);
+        if (response) {
+          // console.log(response?.data);
+          if (response?.data?.status_code === 200) {
+            storage.setItem('userLogin', response?.data?.data);
+            // console.log(response?.data?.data);
+            props.navigation.navigate('TabNav');
+          } else {
+            Alert.alert(
+              'Thông báo',
+              'Số điện thoại hoặc mật khẩu không chính xác!',
+              [{text: 'OK', onPress: () => {}}],
+              {cancelable: false},
+            );
+          }
+        } else {
+          Alert.alert(
+            'Thông báo',
+            'Số điện thoại hoặc mật khẩu không chính xác!',
+            [{text: 'OK', onPress: () => {}}],
+            {cancelable: false},
+          );
+        }
+      });
+  };
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.main}>
-          {/* <View>
+    <LinearGradient
+      colors={[Color.gradientStart, Color.gradientMiddle, Color.gradientEnd]}
+      start={{x: 0, y: 1}}
+      end={{x: 1, y: 1}}
+      style={{flex: 1}}>
+      <SafeAreaView>
+        <View style={styles.login}>
+          <View style={styles.main}>
+            {/* <View>
              <Image
               source={Images.logoGiaTien}
               resizeMode="contain"
               style={{width: 106, height: 106}}
             />
           </View> */}
-          <Logo width={100} height={100}/>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-            style={styles.container}>
-            <ScrollView style={{width: '100%', marginBottom: 10}}>
-              <View>
-                <View style={styles.textLogin}>
-                  <Text style={styles.configTextLogin}>Đăng nhập</Text>
-                </View>
-                <View style={styles.phone}>
-                  <View style={styles.textInput}>
-                    <TextInput
-                      style={{
-                        height: 40,
-                        color: '#000000',
-                        marginLeft: 5,
-                        fontFamily: 'Nunito',
-                      }}
-                      placeholder="Số điện thoại"
-                      placeholderTextColor="gray"
-                      onChangeText={(text) => onChanePhone(text)}
-                      value={phone}
-                    />
+            <View style={{marginTop: 15}}>
+              <Image
+                source={Images.logo}
+                resizeMode="cover"
+                style={{width: 120, height: 120}}
+              />
+            </View>
+            <KeyboardAvoidingView
+              behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+              style={styles.login}>
+              <ScrollView style={{width: '100%', marginBottom: 10}}>
+                <View>
+                  <View style={styles.textLogin}>
+                    <Text style={styles.configTextLogin}>Đăng nhập</Text>
                   </View>
-                </View>
-                <View style={styles.password}>
-                  <View style={styles.textInput}>
+                  <View style={styles.phone}>
+                    <View style={styles.textInput}>
+                      <TextInput
+                        style={{
+                          height: 40,
+                          color: '#000000',
+                          // marginLeft: 5,
+                          fontFamily: 'Nunito',
+                        }}
+                        placeholder="Số điện thoại"
+                        keyboardType="number-pad"
+                        placeholderTextColor="gray"
+                        onChangeText={(text) => onChanePhone(text)}
+                        value={phone}
+                      />
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      height: 40,
+                      // width: '80%',
+                      marginTop: 30,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      borderBottomWidth: 0.8,
+                      borderBottomColor: '#333333',
+                      marginLeft: 20,
+                      marginRight: 20,
+                    }}>
                     <TextInput
                       style={{
-                        height: 40,
                         color: '#000000',
-                        marginLeft: 5,
                         fontFamily: 'Nunito',
+                        width: '87%',
+                        height: 40,
                       }}
                       placeholder="Mật khẩu"
                       placeholderTextColor="gray"
-                      onChangeText={(text) => onChanePassword(text)}
+                      onChangeText={(text) => setPassword(text)}
                       value={password}
-                      secureTextEntry={true}
+                      secureTextEntry={displayPassword === true ? false : true}
                     />
-                  </View>
-                </View>
-                <View style={styles.password}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: '90%',
-                      justifyContent: 'flex-end',
-                    }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        props.navigation.navigate('ForgotPasswordScreen');
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontFamily: 'Nunito',
-                          color: '#111',
-                        }}>
-                        Quên mật khẩu?
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('TabNav');
-                  }}
-                  style={{width: '100%', alignItems: 'center'}}>
-                  <View style={styles.button}>
                     <View
                       style={{
+                        height: 40,
                         flexDirection: 'column',
-                        height: 42,
                         justifyContent: 'center',
                       }}>
-                      <Text
-                        style={{
-                          color: '#FFFFFF',
-                          fontFamily: 'Nunito',
-                          fontSize: 14,
-                        }}>
-                        ĐĂNG NHẬP
-                      </Text>
+                      <TouchableOpacity
+                        onPress={() => setDisplayPassword(!displayPassword)}>
+                        <MaterialIcons
+                          name={
+                            displayPassword === true
+                              ? 'visibility'
+                              : 'visibility-off'
+                          }
+                          size={22}
+                          color={'black'}
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
-                </TouchableOpacity>
-
-                <View
-                  style={{
-                    marginTop: 20,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 'Nunito',
-                      fontSize: 14,
-                      color: 'gray',
-                      textDecorationLine: 'underline',
-                      textDecorationColor: 'gray',
-                    }}>
-                    Chưa có tài khoản?{' '}
-                  </Text>
+                  <View style={styles.password}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        width: '90%',
+                        justifyContent: 'flex-end',
+                      }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          props.navigation.navigate('ForgotPasswordScreen');
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: 'Nunito',
+                            color: '#111',
+                          }}>
+                          Quên mật khẩu?
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                   <TouchableOpacity
                     onPress={() => {
-                      props.navigation.navigate('RegisterScreen');
+                      onLogin(phone, password);
+                    }}
+                    style={{
+                      width: '100%',
+                      alignItems: 'center',
+                    }}>
+                    <View style={styles.button}>
+                      <View
+                        style={{
+                          flexDirection: 'column',
+                          height: 45,
+                          justifyContent: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            color: '#FFFFFF',
+                            fontFamily: 'Nunito',
+                            fontSize: 14,
+                          }}>
+                          ĐĂNG NHẬP
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+
+                  <View
+                    style={{
+                      marginTop: 20,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
                     }}>
                     <Text
                       style={{
+                        fontSize: 'Nunito',
                         fontSize: 14,
-                        fontFamily: 'Nunito',
-                        color: Color.main,
+                        color: 'gray',
+                        textDecorationLine: 'underline',
+                        textDecorationColor: 'gray',
                       }}>
-                      Đăng ký{' '}
+                      Chưa có tài khoản?{' '}
                     </Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: 'Nunito',
-                      fontSize: 14,
-                      color: 'gray',
-                      textDecorationLine: 'underline',
-                      textDecorationColor: 'gray',
-                    }}>
-                    tại đây.
-                  </Text>
-                </View>
-                <View style={styles.password}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginTop: 10,
-                    }}>
-                    <View
-                      style={{
-                        height: 1,
-                        width: 18,
-                        backgroundColor: 'gray',
-                        marginRight: 10,
-                      }}
-                    />
-                    <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        props.navigation.navigate('RegisterScreen');
+                      }}>
                       <Text
                         style={{
-                          fontSize: 'Nunito',
                           fontSize: 14,
-                          color: '#111',
+                          fontFamily: 'Nunito',
+                          color: Color.main,
                         }}>
-                        Hoặc đăng nhập với
+                        Đăng ký{' '}
                       </Text>
-                    </View>
-                    <View
+                    </TouchableOpacity>
+                    <Text
                       style={{
-                        height: 1,
-                        width: 18,
-                        backgroundColor: 'gray',
-                        marginLeft: 10,
-                      }}
-                    />
+                        fontSize: 'Nunito',
+                        fontSize: 14,
+                        color: 'gray',
+                        textDecorationLine: 'underline',
+                        textDecorationColor: 'gray',
+                      }}>
+                      tại đây.
+                    </Text>
                   </View>
                 </View>
-
-                <View
-                  style={{
-                    marginTop: 15,
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity>
-                    <View style={{width: 50, height: 50}}>
-                      <Image
-                        source={Images.loginGoogle}
-                        // resizeMode="contain"
-                        style={{width: 50, height: 50}}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
+              </ScrollView>
+            </KeyboardAvoidingView>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

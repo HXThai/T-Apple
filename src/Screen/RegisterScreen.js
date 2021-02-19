@@ -32,6 +32,7 @@ const RegisterScreen = (props) => {
                 <View
                   style={{
                     paddingBottom: 100,
+                    marginTop: 25,
                   }}>
                   <View
                     style={{
@@ -41,9 +42,9 @@ const RegisterScreen = (props) => {
                     }}>
                     <View>
                       <Image
-                        source={Images.logoGiaTien}
+                        source={Images.logo}
                         // resizeMode="contain"
-                        style={{width: 155, height: 155}}
+                        style={{width: 120, height: 120}}
                       />
                     </View>
                   </View>
@@ -109,110 +110,6 @@ const RegisterScreen = (props) => {
                         />
                       </View>
                     </View>
-                    <View style={styles.phone}>
-                      <View style={styles.textInput}>
-                        <TextInput
-                          style={{
-                            height: 40,
-                            color: '#000000',
-                            marginLeft: 5,
-                            fontFamily: 'Nunito',
-                          }}
-                          placeholder="Nhập mã giới thiệu (có thể bỏ qua)"
-                          placeholderTextColor="gray"
-                        />
-                      </View>
-                    </View>
-                    <View
-                      style={{
-                        width: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flex: 1,
-                      }}>
-                      <View
-                        style={{
-                          marginTop: 20,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '90%',
-                        }}>
-                        <View
-                          style={{
-                            justifyContent: 'center',
-                            width: '100%',
-                            height: '100%',
-                            position: 'absolute',
-                            alignItems: 'center',
-                          }}>
-                          <View
-                            style={{
-                              height: 40,
-                              width: '100%',
-                              marginTop: 5,
-                              color: 'grey',
-                              // opacity: 0.2,
-                              borderColor: 'gray',
-                              borderBottomWidth: 1,
-                              borderBottomColor: 'gray',
-                            }}>
-                            <TextInput
-                              style={{
-                                height: 40,
-                                color: '#000000',
-                                marginLeft: 5,
-                                fontFamily: 'Nunito',
-                              }}
-                              placeholder="76589"
-                              placeholderTextColor="gray"
-                            />
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            width: '90%',
-                            justifyContent: 'flex-end',
-                            alignSelf: 'flex-end',
-                            marginTop: 5,
-                            marginLeft: '10%',
-                          }}>
-                          <TouchableOpacity onPress={() => {}}>
-                            <Text
-                              style={{
-                                fontSize: 14,
-                                fontFamily: 'Nunito',
-                                color: '#111',
-                              }}>
-                              Lấy mã
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </View>
-
-                    <View
-                      style={{
-                        marginTop: 20,
-                        alignItems: 'center',
-                        width: '100%',
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          width: '90%',
-                          justifyContent: 'flex-end',
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontFamily: 'Nunito',
-                            color: '#FF0000',
-                          }}>
-                          mã xác thực còn 0:30
-                        </Text>
-                      </View>
-                    </View>
                     <View
                       style={{
                         width: '100%',
@@ -222,12 +119,15 @@ const RegisterScreen = (props) => {
                         onPress={() => {
                           props.navigation.navigate('TabNav');
                         }}
-                        style={{width: '100%', alignItems: 'center'}}>
+                        style={{
+                          width: '100%',
+                          alignItems: 'center',
+                        }}>
                         <View style={styles.button}>
                           <View
                             style={{
                               flexDirection: 'column',
-                              height: 42,
+                              height: 45,
                               justifyContent: 'center',
                             }}>
                             <Text

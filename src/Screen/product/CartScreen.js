@@ -83,119 +83,101 @@ const CartScreen = (props) => {
   const [dataProduct, setDataProduct] = useState([
     {
       id: 1,
-      Shop_name: 'Shop Giatien',
-      data: [
-        {
-          id: 1,
-          name: 'Iphone 11',
-          image:
-            'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-11-didongviet_3_8.jpg',
-          amount: 19000000,
-          pro: 0.1,
-          number: 2,
-        },
-        {
-          id: 2,
-          name: 'Iphone 12',
-          image:
-            'https://vietmystore.vn/storage/san-pham/iphone12/iphone-12-pro-family-hero-all.jpeg',
-          amount: 31000000,
-          pro: 0.11,
-          number: 1,
-        },
-      ],
+      name: 'Iphone 11',
+      image:
+        'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-11-didongviet_3_8.jpg',
+      amount: 21000000,
+      pro: 0.09,
+      number: 2,
     },
     {
       id: 2,
-      Shop_name: 'Shop Giatien2',
-      data: [
-        {
-          id: 1,
-          name: 'Iphone 11',
-          image:
-            'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-11-didongviet_3_8.jpg',
-          amount: 21000000,
-          pro: 0.09,
-          number: 2,
-        },
-        {
-          id: 2,
-          name: 'Iphone 12',
-          image:
-            'https://vietmystore.vn/storage/san-pham/iphone12/iphone-12-pro-family-hero-all.jpeg',
-          amount: 31000000,
-          pro: 0.12,
-          number: 1,
-        },
-      ],
-    },
-    {
-      id: 3,
-      Shop_name: 'Shop Giatien3',
-      data: [
-        {
-          id: 1,
-          name: 'Iphone 11',
-          image:
-            'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-11-didongviet_3_8.jpg',
-          amount: 21000000,
-          pro: 0.09,
-          number: 2,
-        },
-        {
-          id: 2,
-          name: 'Iphone 12',
-          image:
-            'https://vietmystore.vn/storage/san-pham/iphone12/iphone-12-pro-family-hero-all.jpeg',
-          amount: 31000000,
-          pro: 0.12,
-          number: 1,
-        },
-      ],
+      name: 'Iphone 12',
+      image:
+        'https://vietmystore.vn/storage/san-pham/iphone12/iphone-12-pro-family-hero-all.jpeg',
+      amount: 31000000,
+      pro: 0.12,
+      number: 1,
     },
   ]);
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {dataProduct.map((item, i) => {
+        {dataProduct.map((item, index) => {
           return (
-            <View>
-              <View style={{height: 10, backgroundColor: '#11111120'}} />
-              <View style={{padding: 15}}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setCheck(item.id);
-                    }}>
-                    {check !== item.id ? (
-                      <MaterialIcons
-                        name={'radio-button-unchecked'}
-                        size={20}
-                        color={Color.main}
-                      />
-                    ) : (
-                      <MaterialIcons
-                        name={'radio-button-checked'}
-                        size={20}
-                        color={Color.main}
-                      />
-                    )}
-                  </TouchableOpacity>
-                  <Text style={styles.title}>{item.Shop_name}</Text>
-                </View>
-                <FlatList
-                  data={item.data}
-                  renderItem={({item}) => (
-                    <FLatlistItem
-                      image={item.image}
-                      name={item.name}
-                      amount={item.amount}
-                      pro={item.pro}
-                      number={item.number}
-                    />
-                  )}
-                  // keyExtractor={id}
+            <View
+              style={{
+                marginTop: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 10,
+                backgroundColor: '#fff',
+                borderRadius: 6,
+                elevation: 3,
+                margin: 10,
+              }}>
+              <View style={{height: 60, width: 60}}>
+                <Image
+                  source={{uri: item.image}}
+                  style={{width: '100%', height: '100%'}}
                 />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  marginLeft: 5,
+                  justifyContent: 'space-between',
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}>
+                  <View
+                    style={{
+                      width: '90%',
+                      // borderColor: '#111111',
+                      // borderWidth: 1,
+                      // padding: 5,
+                      borderRadius: 20,
+                      // paddingLeft: 10,
+                    }}>
+                    <Text style={styles.text}>{item.name}</Text>
+                  </View>
+                  <TouchableOpacity>
+                    <Image source={Images.binIcon} />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: 8,
+                  }}>
+                  <Text style={[styles.text, {fontWeight: 'bold'}]}>
+                    {styles.dynamicSort(item.amount - item.amount * item.pro)}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.text,
+                      {textDecorationLine: 'line-through', fontSize: 12},
+                    ]}>
+                    {styles.dynamicSort(item.amount)}
+                  </Text>
+                  <View
+                    style={{
+                      borderColor: '#111',
+                      borderWidth: 1,
+                      width: 30,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 4,
+                    }}>
+                    <Text style={styles.text}>{item.number}</Text>
+                  </View>
+                </View>
               </View>
             </View>
           );

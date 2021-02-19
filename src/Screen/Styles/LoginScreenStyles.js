@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, Dimensions } from 'react-native';
+import {StatusBar, StyleSheet, Dimensions} from 'react-native';
 import AppStyles from '../../Theme/AppStyles';
 import Color from '../../Theme/Color';
 import Metric from '../../Theme/Metric';
@@ -12,17 +12,24 @@ export default StyleSheet.create({
     backgroundColor: Color.background,
     flexDirection: 'column',
   },
+  login: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    // flex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'column',
+  },
   main: {
     marginTop: 30,
     alignItems: 'center',
   },
   textLogin: {
-    marginTop: 10,
+    marginTop: 30,
     alignItems: 'center',
   },
   configTextLogin: {
     fontFamily: 'Nunito',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     lineHeight: 25,
   },
@@ -39,7 +46,7 @@ export default StyleSheet.create({
     // opacity: 0.2,
     borderColor: 'gray',
     borderBottomWidth: 1,
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
   },
   password: {
     marginTop: 10,
@@ -52,5 +59,6 @@ export default StyleSheet.create({
     height: 42,
     backgroundColor: Color.main,
     alignItems: 'center',
+    borderRadius: 8,
   },
 });

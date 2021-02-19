@@ -102,7 +102,7 @@ const PersonalDetail = () => {
                     bottom: 0,
                     left: 50,
                   }}
-                  value="Yang Yo"
+                  value="Xuân Thái"
                 />
               </View>
 
@@ -194,9 +194,11 @@ const PersonalDetail = () => {
                 <View
                   style={{
                     width: 92,
-                    height: 28,
+                    height: 40,
                     backgroundColor: Color.main,
                     alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 8,
                   }}>
                   <View
                     style={{
@@ -208,7 +210,7 @@ const PersonalDetail = () => {
                       style={{
                         color: '#FFFFFF',
                         fontFamily: 'Nunito',
-                        fontSize: 14,
+                        fontSize: 16,
                       }}>
                       Lưu
                     </Text>

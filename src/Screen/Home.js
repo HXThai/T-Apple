@@ -45,7 +45,7 @@ const Home = (props) => {
     if (index === 0) {
       props.navigation.navigate('Product');
     } else if (index === 1) {
-      props.navigation.navigate('Services');
+      props.navigation.navigate('AccessoriesScreen');
     } else if (index === 2) {
       props.navigation.navigate('Promotions');
     } else {
@@ -56,11 +56,11 @@ const Home = (props) => {
   const [dataCategories, setDataCategories] = useState([
     {
       image: ProductIcon,
-      titleTop: 'Sản phẩm',
+      titleTop: 'Điện thoại',
     },
     {
       image: ServiceIcon,
-      titleTop: 'Dịch vụ',
+      titleTop: 'Phụ kiện',
     },
     {
       image: CouponIcon,
@@ -386,7 +386,7 @@ const Home = (props) => {
                           height: 50,
                           backgroundColor: '#fff',
                           borderRadius: 50,
-                          opacity: 0.4,
+                          opacity: 0.8,
                           // position: 'absolute',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -394,35 +394,33 @@ const Home = (props) => {
                         <MaterialIcons
                           name={'search'}
                           size={28}
-                          color={'white'}
+                          color={'black'}
                         />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() =>
-                        props.navigation.navigate('NotificationScreen')
-                      }>
+                      onPress={() => props.navigation.navigate('CartScreen')}>
                       <View
                         style={{
                           width: 50,
                           height: 50,
                           backgroundColor: '#fff',
                           borderRadius: 50,
-                          opacity: 0.4,
+                          opacity: 0.8,
                           // position: 'absolute',
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
                         <MaterialIcons
-                          name={'notifications'}
+                          name={'shopping-cart'}
                           size={28}
-                          color={'white'}
+                          color={'black'}
                         />
                       </View>
                     </TouchableOpacity>
                   </View>
                 </View>
-                <View
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -434,8 +432,8 @@ const Home = (props) => {
                   <Button image={Images.phone} onclick={() => {}} />
                   <Button image={Images.iconComment} onclick={() => {}} />
                   <Button image={Images.gps} onclick={() => {}} />
-                </View>
-                <View style={{height: 10, backgroundColor: '#11111150'}} />
+                </View> */}
+                {/* <View style={{height: 10, backgroundColor: '#11111150'}} /> */}
                 <View
                   style={{
                     flexDirection: 'row',
@@ -458,6 +456,7 @@ const Home = (props) => {
                     {dataCategories.map((item, index) => {
                       return (
                         <TouchableOpacity
+                          key={index}
                           onPress={() => onClickCategories(props, index)}
                           style={{
                             flexDirection: 'column',
@@ -478,7 +477,13 @@ const Home = (props) => {
                             }}>
                             <Image source={item.image} />
                           </View> */}
-                          <item.image/>
+                          <View
+                            style={{
+                              height: 30,
+                              justifyContent: 'center',
+                            }}>
+                            <item.image />
+                          </View>
                           <View
                             style={{
                               marginTop: 5,
@@ -519,7 +524,7 @@ const Home = (props) => {
                           fontWeight: 'bold',
                         })
                       }>
-                      Khuyến mại
+                      Khuyến mãi nổi bật
                     </Text>
                     <TouchableOpacity>
                       <Text
@@ -549,6 +554,7 @@ const Home = (props) => {
                       {dataSale.map((item, index) => {
                         return (
                           <View
+                            key={index}
                             style={{
                               shadowColor: '#000',
                               shadowOffset: {
@@ -616,9 +622,12 @@ const Home = (props) => {
                           fontWeight: 'bold',
                         })
                       }>
-                      Sản phẩm nổi bật
+                      Điện thoại nổi bật
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        props.navigation.navigate('Product');
+                      }}>
                       <Text
                         style={
                           (styles.text,
@@ -640,9 +649,10 @@ const Home = (props) => {
                       justifyContent: 'space-around',
                       flexDirection: 'row',
                     }}>
-                    {dataProduct.map((item, i) => {
+                    {dataProduct.map((item, index) => {
                       return (
                         <View
+                          key={index}
                           style={{
                             width: '45%',
                             borderRadius: 4,
@@ -662,7 +672,7 @@ const Home = (props) => {
                             />
                           </TouchableOpacity>
                           <View style={{padding: 10}}>
-                            <Text style={[styles.text, {fontWeight: '1000'}]}>
+                            <Text style={[styles.text, {fontWeight: '100'}]}>
                               {item.title}{' '}
                             </Text>
                             <Text
@@ -677,7 +687,13 @@ const Home = (props) => {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                               }}>
-                              <View style={{flex: 1}}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                }}>
                                 <Text
                                   style={[styles.text, {fontWeight: 'bold'}]}>
                                   {styles.dynamicSort(
@@ -696,12 +712,12 @@ const Home = (props) => {
                                   {styles.dynamicSort(item.amount)}
                                 </Text>
                               </View>
-                              <TouchableOpacity
+                              {/* <TouchableOpacity
                                 onPress={() =>
                                   props.navigation.navigate('CartScreen')
                                 }>
                                 <Image source={Images.addOrder} />
-                              </TouchableOpacity>
+                              </TouchableOpacity> */}
                             </View>
                           </View>
                         </View>
@@ -727,9 +743,12 @@ const Home = (props) => {
                           fontWeight: 'bold',
                         })
                       }>
-                      Phụ kiện
+                      Phụ kiện nổi bật
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        props.navigation.navigate('AccessoriesScreen');
+                      }}>
                       <Text
                         style={
                           (styles.text,
@@ -754,6 +773,7 @@ const Home = (props) => {
                     {dataAccessories.map((item, i) => {
                       return (
                         <View
+                          key={i}
                           style={{
                             width: '45%',
                             borderRadius: 4,
@@ -765,7 +785,9 @@ const Home = (props) => {
                           <TouchableOpacity
                             style={{alignItems: 'center'}}
                             onPress={() =>
-                              props.navigation.navigate('ProductDetail')
+                              props.navigation.navigate(
+                                'AccessoriesDetailScreen',
+                              )
                             }>
                             <Image
                               source={{uri: item.image}}
@@ -773,7 +795,7 @@ const Home = (props) => {
                             />
                           </TouchableOpacity>
                           <View style={{padding: 10}}>
-                            <Text style={[styles.text, {fontWeight: '1000'}]}>
+                            <Text style={[styles.text, {fontWeight: '100'}]}>
                               {item.title}{' '}
                             </Text>
                             <Text
@@ -788,7 +810,13 @@ const Home = (props) => {
                                 flexDirection: 'row',
                                 alignItems: 'center',
                               }}>
-                              <View style={{flex: 1}}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                }}>
                                 <Text
                                   style={[styles.text, {fontWeight: 'bold'}]}>
                                   {styles.dynamicSort(
@@ -807,12 +835,12 @@ const Home = (props) => {
                                   {styles.dynamicSort(item.amount)}
                                 </Text>
                               </View>
-                              <TouchableOpacity
+                              {/* <TouchableOpacity
                                 onPress={() =>
                                   props.navigation.navigate('CartScreen')
                                 }>
                                 <Image source={Images.addOrder} />
-                              </TouchableOpacity>
+                              </TouchableOpacity> */}
                             </View>
                           </View>
                         </View>
@@ -838,9 +866,12 @@ const Home = (props) => {
                           fontWeight: 'bold',
                         })
                       }>
-                      Tin tức
+                      Tin tức nổi bật
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        props.navigation.navigate('News');
+                      }}>
                       <Text
                         style={
                           (styles.text,
@@ -875,6 +906,7 @@ const Home = (props) => {
                     {dataNews.map((item, index) => {
                       return (
                         <View
+                          key={index}
                           style={{
                             margin: 10,
                             width: '92%',

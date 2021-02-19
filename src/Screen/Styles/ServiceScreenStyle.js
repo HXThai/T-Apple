@@ -15,12 +15,17 @@ export default StyleSheet.create({
     color: '#111111',
     fontFamily: 'Nunito',
   },
-  viewItem:{
-    borderBottomColor: '#11111150',
-    borderBottomWidth: 1,
+  viewItem: {
+    // borderBottomColor: '#11111150',
+    elevation: 3,
+    // borderBottomWidth: 1,
+    margin: 2,
     padding: 10,
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#fff',
   },
   viewImage: {
     backgroundColor: '#fff',
@@ -34,6 +39,6 @@ export default StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 });

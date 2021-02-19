@@ -54,14 +54,15 @@ const Personal = (props) => {
               <View style={{flex: 1}}>
                 <Image
                   style={{width: 52, height: 52, borderRadius: 100}}
-                  source={Images.logoGiaTien}
+                  source={Images.logo}
                   resizeMode="center"
                 />
               </View>
-              <View style={{flex: 5}}>
+              <View
+                style={{flex: 5, height: 50, justifyContent: 'space-around'}}>
                 <Text
                   style={{fontSize: 18, fontWeight: '700', color: '#112868'}}>
-                  Yang Yo
+                  Xuân Thái
                 </Text>
                 <Text style={{fontSize: 14}}>Khách hàng_Vip</Text>
               </View>
@@ -75,45 +76,86 @@ const Personal = (props) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Wallet');
               }}>
-              <View style={{flexDirection: 'row', margin: 15, marginTop: 30}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 20,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <Wallet width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Ví tiền</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Warranty');
               }}>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 15,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <Warranty width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Bảo hành</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-              <View style={{flexDirection: 'row', margin: 15}}>
+            {/* <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <FontAwesomeIcon size={20} icon={faHistory} color="#898989" />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Lịch sử</Text>
               </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <View style={{flexDirection: 'row', margin: 15}}>
-                <Noti width={20} height={20} />
-                <Text style={{fontSize: 14, marginLeft: 10}}>Thông báo</Text>
-              </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('ChangePassword');
               }}>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <ChangePass width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Đổi mật khẩu</Text>
               </View>
@@ -123,21 +165,57 @@ const Personal = (props) => {
               onPress={() => {
                 props.navigation.navigate('Feedback');
               }}>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <RateApp width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Đánh giá app</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <Guide width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Hướng dẫn</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <Info width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>
                   Thông tin liên hệ
@@ -146,7 +224,19 @@ const Personal = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <View style={{flexDirection: 'row', margin: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  // margin: 15,
+                  marginTop: 10,
+                  padding: 13,
+                  elevation: 3,
+                  backgroundColor: '#fff',
+                  marginBottom: 10,
+                  marginRight: 3,
+                  marginLeft: 3,
+                  borderRadius: 6,
+                }}>
                 <Share width={20} height={20} />
                 <Text style={{fontSize: 14, marginLeft: 10}}>Chia sẻ</Text>
               </View>

@@ -2,7 +2,11 @@ import {faShoppingCart, faStar} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import {ScrollView, TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Color from '../../Theme/Color';
 import styles from '../Styles/ServiceDetailStyle';
 
@@ -24,7 +28,7 @@ const Feedback = (props) => {
             justifyContent: 'flex-start',
             textAlignVertical: 'top',
             marginVertical: 15,
-            borderRadius: 10
+            borderRadius: 10,
           }}
         />
 
@@ -32,9 +36,11 @@ const Feedback = (props) => {
           <View
             style={{
               width: 92,
-              height: 28,
+              height: 40,
               backgroundColor: Color.main,
               alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 8,
             }}>
             <View
               style={{
@@ -46,7 +52,7 @@ const Feedback = (props) => {
                 style={{
                   color: '#FFFFFF',
                   fontFamily: 'Nunito',
-                  fontSize: 14,
+                  fontSize: 16,
                 }}>
                 Gửi
               </Text>

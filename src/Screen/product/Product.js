@@ -159,6 +159,7 @@ const Product = (props) => {
           {dataProduct.map((item, i) => {
             return (
               <View
+                key={i}
                 style={{
                   width: '45%',
                   borderRadius: 4,
@@ -190,7 +191,13 @@ const Product = (props) => {
                     Số lượng: {item.number}
                   </Text>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={{flex: 1}}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}>
                       <Text style={[styles.text, {fontWeight: 'bold'}]}>
                         {styles.dynamicSort(
                           item.amount - item.amount * item.pro,
@@ -205,10 +212,10 @@ const Product = (props) => {
                         {styles.dynamicSort(item.amount)}
                       </Text>
                     </View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                       onPress={() => props.navigation.navigate('CartScreen')}>
                       <Image source={Images.addOrder} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
                 </View>
               </View>

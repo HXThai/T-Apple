@@ -23,7 +23,20 @@ const PromotionDetail = (props) => {
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{padding: 15, width: '100%'}}>
-          <Text style={{fontSize: 14, fontWeight: '700', marginBottom: 15}}>
+          <Image
+            source={{
+              uri:
+                'https://giatien.net/thumb/1920x863/1/upload/hinhanh/untitled-2-2513.png',
+            }}
+            style={{width: '100%', minHeight: 207}}
+          />
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: '700',
+              marginBottom: 15,
+              marginTop: 15,
+            }}>
             Tặng dâu tây khi đăng kí thành viên{' '}
           </Text>
           <View style={{flexDirection: 'row'}}>
@@ -41,13 +54,6 @@ const PromotionDetail = (props) => {
             hồi, góp ý cùng việc hỗ trợ mình chia sẻ những đứa con tinh thần đến
             với cộng đồng nghe nhạc.
           </Text>
-          <Image
-            source={{
-              uri:
-                'https://giatien.net/thumb/1920x863/1/upload/hinhanh/untitled-2-2513.png',
-            }}
-            style={{width: '100%', minHeight: 207}}
-          />
         </View>
       </ScrollView>
     </View>

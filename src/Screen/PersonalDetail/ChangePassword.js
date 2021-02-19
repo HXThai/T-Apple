@@ -29,7 +29,7 @@ const ChangePassword = () => {
               paddingLeft: 30,
               borderWidth: 1,
               borderRadius: 5,
-              marginBottom: 15
+              marginBottom: 15,
             }}
             placeholder="Mật khẩu cũ"
           />
@@ -54,7 +54,7 @@ const ChangePassword = () => {
               paddingLeft: 30,
               borderWidth: 1,
               borderRadius: 5,
-              marginBottom: 15
+              marginBottom: 15,
             }}
             placeholder="Mật khẩu mới"
           />
@@ -79,7 +79,7 @@ const ChangePassword = () => {
               paddingLeft: 30,
               borderWidth: 1,
               borderRadius: 5,
-              marginBottom: 15
+              marginBottom: 15,
             }}
             placeholder="Nhập lại mật khẩu mới"
           />
@@ -100,9 +100,12 @@ const ChangePassword = () => {
           <View
             style={{
               width: 120,
-              height: 28,
+              height: 40,
               backgroundColor: Color.main,
               alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 8,
+              // padding: 5,
             }}>
             <View
               style={{

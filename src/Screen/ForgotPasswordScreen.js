@@ -32,6 +32,7 @@ const ForgotPasswordScreen = (props) => {
                 <View
                   style={{
                     paddingBottom: 100,
+                    marginTop: 25,
                   }}>
                   <View
                     style={{
@@ -41,9 +42,9 @@ const ForgotPasswordScreen = (props) => {
                     }}>
                     <View>
                       <Image
-                        source={Images.logoGiaTien}
+                        source={Images.logo}
                         // resizeMode="contain"
-                        style={{width: 155, height: 155}}
+                        style={{width: 120, height: 120}}
                       />
                     </View>
                   </View>
@@ -94,7 +95,7 @@ const ForgotPasswordScreen = (props) => {
                         />
                       </View>
                     </View>
-                    <View
+                    {/* <View
                       style={{
                         width: '100%',
                         justifyContent: 'center',
@@ -191,7 +192,7 @@ const ForgotPasswordScreen = (props) => {
                           </Text>
                         </TouchableOpacity>
                       </View>
-                    </View>
+                    </View> */}
                     <View
                       style={{
                         width: '100%',
@@ -215,7 +216,7 @@ const ForgotPasswordScreen = (props) => {
                                 fontFamily: 'Nunito',
                                 fontSize: 14,
                               }}>
-                              GỬI MÃ XÁC THỰC
+                              XÁC NHÂN
                             </Text>
                           </View>
                         </View>

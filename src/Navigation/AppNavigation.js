@@ -9,8 +9,8 @@ import CartScreen from '../Screen/product/CartScreen';
 import Order from '../Screen/product/Order';
 import ConfirmOrder from '../Screen/product/ConfirmOrder';
 import AccumulatePointScreen from '../Screen/AccumulatePointScreen';
-import ServiceScreen from '../Screen/ServiceScreen';
-import ServiceDetail from '../Screen/service/ServiceDetail';
+import OrderHistoryScreen from '../Screen/OrderHistoryScreen';
+import AccessoriesDetailScreen from '../Screen/service/AccessoriesDetailScreen';
 import Personal from '../Screen/Personal';
 import ChatScreen from '../Screen/ChatScreen';
 
@@ -23,7 +23,7 @@ import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import LoginScreen from '../Screen/LoginScreen';
 import RegisterScreen from '../Screen/RegisterScreen';
 import ForgotPasswordScreen from '../Screen/ForgotPasswordScreen';
-import Services from '../Screen/service/Services';
+import AccessoriesScreen from '../Screen/service/AccessoriesScreen';
 import Promotion from '../Screen/Promotion/Promotion';
 import News from '../Screen/News/News';
 import PromotionDetail from '../Screen/Promotion/PromotionDetail';
@@ -36,20 +36,10 @@ import PersonalDetail from '../Screen/PersonalDetail/PersonalDetail';
 import ChangePassword from '../Screen/PersonalDetail/ChangePassword';
 import AccumulatePointDetail from '../Screen/AccumulatePointDetail';
 import NotificationScreen from '../Screen/Notification/NotificationScreen';
+import NotificationDetailScreen from '../Screen/Notification/NotificationDetailScreen';
 import SearchScreen from '../Screen/Search/SearchScreen';
 import Warranty from '../Screen/Warranty/Warranty';
 import LinearGradient from 'react-native-linear-gradient';
-
-import HomeSvg from '../Theme/svg/home.svg';
-import HomeSvg1 from '../Theme/svg/home1.svg';
-import ComtSvg1 from '../Theme/svg/comt1.svg';
-import ComtSvg from '../Theme/svg/comt.svg';
-import OrderSvg1 from '../Theme/svg/order1.svg';
-import OrderSvg from '../Theme/svg/order.svg';
-import PointSvg1 from '../Theme/svg/point1.svg';
-import PointSvg from '../Theme/svg/point.svg';
-import PersonSvg1 from '../Theme/svg/person1.svg';
-import PersonSvg from '../Theme/svg/person.svg';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,21 +74,46 @@ const getTabBarVisibility = (route) => {
   if (routename == 'ConfirmOrder') {
     return false;
   }
-  if (routename == 'ServiceDetail') {
+  if (routename == 'AccessoriesDetailScreen') {
     return false;
   }
   if (routename == 'Schedule') {
     return false;
   }
-  if (routename == 'Services') {
+  if (routename == 'AccessoriesScreen') {
     return false;
   }
   if (routename == 'ConfirmSchedule') {
     return false;
   }
-  if (routename == 'NotificationScreen') {
+  if (routename == 'Promotions') {
     return false;
   }
+  if (routename == 'PromotionDetail') {
+    return false;
+  }
+  if (routename == 'News') {
+    return false;
+  }
+  if (routename == 'NewsDetail') {
+    return false;
+  }
+  if (routename == 'Warranty') {
+    return false;
+  }
+  if (routename == 'ChangePassword') {
+    return false;
+  }
+  if (routename == 'PersonalDetail') {
+    return false;
+  }
+  if (routename == 'Feedback') {
+    return false;
+  }
+  if (routename == 'SearchScreen') {
+    return false;
+  }
+
   return true;
 };
 
@@ -112,15 +127,37 @@ function TabNav(props) {
           let url;
           let size = 20;
           if (routeName === 'Trang chủ') {
-            url = !focused ? <HomeSvg /> : <HomeSvg1 />;
-          } else if (routeName === 'Chat') {
-            url = !focused ? <ComtSvg /> : <ComtSvg1 />;
+            url = !focused ? (
+              <MaterialIcons name={'home'} size={26} color="grey" />
+            ) : (
+              <MaterialIcons name={'home'} size={26} color={Color.main} />
+            );
           } else if (routeName === 'Đơn hàng') {
-            url = !focused ? <OrderSvg /> : <OrderSvg1 />;
-          } else if (routeName === 'Tích điểm') {
-            url = !focused ? <PointSvg /> : <PointSvg1 />;
+            url = !focused ? (
+              <MaterialIcons name={'assignment'} size={26} color="grey" />
+            ) : (
+              <MaterialIcons name={'assignment'} size={26} color={Color.main} />
+            );
+          } else if (routeName === 'Thông báo') {
+            url = !focused ? (
+              <MaterialIcons
+                name={'circle-notifications'}
+                size={26}
+                color="grey"
+              />
+            ) : (
+              <MaterialIcons
+                name={'circle-notifications'}
+                size={26}
+                color={Color.main}
+              />
+            );
           } else if (routeName === 'Cá nhân') {
-            url = !focused ? <PersonSvg /> : <PersonSvg1 />;
+            url = !focused ? (
+              <MaterialIcons name={'person-pin'} size={26} color="grey" />
+            ) : (
+              <MaterialIcons name={'person-pin'} size={26} color={Color.main} />
+            );
           }
           return url;
         },
@@ -142,20 +179,20 @@ function TabNav(props) {
         component={HomeStack}
         navigationOptions={{tabBarLabel: 'Trang chủ'}}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Chat"
         component={ChatScreen}
         navigationOptions={{tabBarLabel: 'Chat'}}
-      />
+      /> */}
       <Tab.Screen
         name="Đơn hàng"
         component={ServiceStack}
         navigationOptions={{tabBarLabel: 'Đơn hàng'}}
       />
       <Tab.Screen
-        name="Tích điểm"
-        component={AccumulatePointScreenStack}
-        navigationOptions={{tabBarLabel: 'Tích điểm'}}
+        name="Thông báo"
+        component={NotificationStack}
+        navigationOptions={{tabBarLabel: 'Thông báo'}}
       />
       <Tab.Screen
         name="Cá nhân"
@@ -202,15 +239,59 @@ function ServiceStack(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="ServiceScreen"
-        component={ServiceScreen}
+        name="OrderHistoryScreen"
+        component={OrderHistoryScreen}
         options={{
-          headerTitle: 'Đơn hàng',
+          headerShown: false,
+          // headerTitle: 'Đơn hàng',
+          // headerTitleStyle: {alignSelf: 'center', color: '#fff'},
+          // headerStyle: {
+          //   backgroundColor: Color.main,
+          //   elevation: 0,
+          // },
+        }}
+      />
+
+      <Stack.Screen
+        name="AccessoriesDetailScreen"
+        component={AccessoriesDetailScreen}
+        options={{
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Chi tiết đơn hàng',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
             backgroundColor: Color.main,
             elevation: 0,
           },
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('OrderHistoryScreen');
+              }}>
+              <View style={{marginLeft: 15}}>
+                <MaterialIcons
+                  name={'keyboard-backspace'}
+                  size={30}
+                  color="#FFFFFF"
+                />
+              </View>
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View
+              style={{
+                width: 22,
+                height: 27,
+                alignItems: 'center',
+                marginRight: 15,
+              }}>
+              {/* <Image
+                source={Images.cartHeader}
+                // resizeMode="contain"
+                style={{width: 22, height: 27}}
+              /> */}
+            </View>
+          ),
         }}
       />
     </Stack.Navigator>
@@ -238,18 +319,11 @@ function PersonalStack(props) {
         name="Wallet"
         component={Wallet}
         options={{
-          // header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Ví của tôi',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
             backgroundColor: Color.main,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -287,18 +361,11 @@ function PersonalStack(props) {
         name="Feedback"
         component={Feedback}
         options={{
-          header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Phản hồi',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -336,18 +403,11 @@ function PersonalStack(props) {
         name="Warranty"
         component={Warranty}
         options={{
-          header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Bảo hành',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -385,18 +445,11 @@ function PersonalStack(props) {
         name="PersonalDetail"
         component={PersonalDetail}
         options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Chào mừng Yang Yo',
+          headerTitle: 'Chi tiết khách hàng',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -434,18 +487,11 @@ function PersonalStack(props) {
         name="ChangePassword"
         component={ChangePassword}
         options={{
-          header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Đổi mật khẩu',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -519,7 +565,8 @@ function HomeStack(props) {
         name="Product"
         component={Product}
         options={{
-          headerTitle: 'Sản phẩm',
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Điện thoại',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
             backgroundColor: Color.main,
@@ -562,70 +609,15 @@ function HomeStack(props) {
       />
 
       <Stack.Screen
-        name="ServiceDetail"
-        component={ServiceDetail}
+        name="AccessoriesScreen"
+        component={AccessoriesScreen}
         options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Chi tiết dịch vụ',
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Phụ kiện',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
-          },
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate('Services');
-              }}>
-              <View style={{marginLeft: 15}}>
-                <MaterialIcons
-                  name={'keyboard-backspace'}
-                  size={30}
-                  color="#FFFFFF"
-                />
-              </View>
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <View
-              style={{
-                width: 22,
-                height: 27,
-                alignItems: 'center',
-                marginRight: 15,
-              }}>
-              {/* <Image
-                source={Images.cartHeader}
-                // resizeMode="contain"
-                style={{width: 22, height: 27}}
-              /> */}
-            </View>
-          ),
-        }}
-      />
-
-      <Stack.Screen
-        name="Services"
-        component={Services}
-        options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Dịch vụ',
-          headerTitleStyle: {alignSelf: 'center', color: '#fff'},
-          headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -642,19 +634,22 @@ function HomeStack(props) {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <View
-              style={{
-                width: 22,
-                height: 27,
-                alignItems: 'center',
-                marginRight: 15,
-              }}>
-              {/* <Image
-                source={Images.cartHeader}
-                // resizeMode="contain"
-                style={{width: 22, height: 27}}
-              /> */}
-            </View>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('CartScreen')}>
+              <View
+                style={{
+                  width: 30,
+                  height: 30,
+                  alignItems: 'center',
+                  marginRight: 15,
+                }}>
+                <MaterialIcons
+                  name={'shopping-cart'}
+                  size={30}
+                  color="#FFFFFF"
+                />
+              </View>
+            </TouchableOpacity>
           ),
         }}
       />
@@ -749,18 +744,12 @@ function HomeStack(props) {
         name="Promotions"
         component={Promotion}
         options={{
-          header: (props) => <GradientHeader {...props} />,
+          // header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Khuyến mãi',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -798,18 +787,12 @@ function HomeStack(props) {
         name="PromotionDetail"
         component={PromotionDetail}
         options={{
-          header: (props) => <GradientHeader {...props} />,
+          // header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Chi tiết khuyến mãi',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -847,18 +830,12 @@ function HomeStack(props) {
         name="News"
         component={News}
         options={{
-          header: (props) => <GradientHeader {...props} />,
+          // header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Tin tức',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -896,18 +873,12 @@ function HomeStack(props) {
         name="NewsDetail"
         component={NewsDetail}
         options={{
-          header: (props) => <GradientHeader {...props} />,
+          // header: (props) => <GradientHeader {...props} />,
           headerTitle: 'Chi tiết tin tức',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -945,12 +916,13 @@ function HomeStack(props) {
         name="ProductDetail"
         component={ProductDetail}
         options={{
-          headerTitle: 'Chi tiết sản phẩm',
+          headerTitle: 'Chi tiết điện thoại',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
             backgroundColor: Color.main,
             elevation: 0,
           },
+          // header: (props) => <GradientHeader {...props} />,
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -996,7 +968,7 @@ function HomeStack(props) {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Product');
+                props.navigation.navigate('Home');
               }}>
               <View style={{marginLeft: 15}}>
                 <MaterialIcons
@@ -1111,21 +1083,15 @@ function HomeStack(props) {
       />
 
       <Stack.Screen
-        name="NotificationScreen"
-        component={NotificationScreen}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Thông báo',
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Tìm kiếm',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -1160,26 +1126,20 @@ function HomeStack(props) {
       />
 
       <Stack.Screen
-        name="SearchScreen"
-        component={SearchScreen}
+        name="AccessoriesDetailScreen"
+        component={AccessoriesDetailScreen}
         options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Tìm kiếm',
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Chi tiết phụ kiện',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Home');
+                props.navigation.navigate('AccessoriesScreen');
               }}>
               <View style={{marginLeft: 15}}>
                 <MaterialIcons
@@ -1211,44 +1171,67 @@ function HomeStack(props) {
   );
 }
 
-function AccumulatePointScreenStack(props) {
+function NotificationStack(props) {
   return (
     <Stack.Navigator headerMode="screen" screenOptions>
       <Stack.Screen
-        name="AccumulatePointScreen"
-        component={AccumulatePointScreen}
+        name="NotificationScreen"
+        component={NotificationScreen}
         options={{
+          // header: (props) => <GradientHeader {...props} />,
           headerShown: false,
-          // headerTitle: 'Tích điểm',
-          // headerTitleStyle: {alignSelf: 'center', color: '#fff'},
-          // headerStyle: {
-          //   backgroundColor: Color.main,
-          //   elevation: 0,
-          // },
-        }}
-      />
-
-      <Stack.Screen
-        name="AccumulatePointDetail"
-        component={AccumulatePointDetail}
-        options={{
-          header: (props) => <GradientHeader {...props} />,
-          headerTitle: 'Tích điểm',
+          headerTitle: 'Thông báo',
           headerTitleStyle: {alignSelf: 'center', color: '#fff'},
           headerStyle: {
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            padding: 0,
-            height: 80,
+            backgroundColor: Color.main,
+            elevation: 0,
           },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('AccumulatePointScreen');
+                props.navigation.navigate('Home');
+              }}>
+              <View style={{marginLeft: 15}}>
+                <MaterialIcons
+                  name={'keyboard-backspace'}
+                  size={30}
+                  color="#FFFFFF"
+                />
+              </View>
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View
+              style={{
+                width: 22,
+                height: 27,
+                alignItems: 'center',
+                marginRight: 15,
+              }}>
+              {/* <Image
+                source={Images.cartHeader}
+                // resizeMode="contain"
+                style={{width: 22, height: 27}}
+              /> */}
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="NotificationDetailScreen"
+        component={NotificationDetailScreen}
+        options={{
+          // header: (props) => <GradientHeader {...props} />,
+          headerTitle: 'Chi tiết thông báo',
+          headerTitleStyle: {alignSelf: 'center', color: '#fff'},
+          headerStyle: {
+            backgroundColor: Color.main,
+            elevation: 0,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('NotificationScreen');
               }}>
               <View style={{marginLeft: 15}}>
                 <MaterialIcons

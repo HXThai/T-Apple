@@ -43,5 +43,7 @@ const Images = {
   radio1: require('./img/radio1.png'),
   ip11promax: require('./img/ip11promax.png'),
   logoGiaTiensvg: Logo,
+  logo: require('./img/logo.jpg'),
+  logoHor: require('./img/logoHor.jpg'),
 };
 export default Images;

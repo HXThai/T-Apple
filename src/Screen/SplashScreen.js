@@ -10,17 +10,30 @@ import styles from './Styles/SplashScreenStyles';
 const SplashScreen = (props) => {
   useEffect(() => {
     setTimeout(() => {
-      props.navigation.navigate('LoginScreen');
+      // props.navigation.navigate('LoginScreen');
+      storage.getItem('userLogin').then((data) => {
+        if (data) {
+          props.navigation.navigate('TabNav');
+        } else {
+          props.navigation.navigate('LoginScreen');
+        }
+      });
     }, 3000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Image
+      {/* <Image
         source={Images.splashScreen}
         resizeMode="cover"
         style={{width: '100%', height: '100%'}}
-      />
+      /> */}
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'white',
+        }}></View>
       <View
         style={{
           width: '100%',
@@ -29,10 +42,10 @@ const SplashScreen = (props) => {
           top: 0,
           left: 0,
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
         }}>
         <Image
-          source={Images.logoTransparent}
+          source={Images.logo}
           resizeMode="cover"
           style={{width: 220, height: 220}}
         />

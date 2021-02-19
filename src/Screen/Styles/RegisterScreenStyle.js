@@ -39,7 +39,7 @@ export default StyleSheet.create({
     // opacity: 0.2,
     borderColor: 'gray',
     borderBottomWidth: 1,
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
   },
   password: {
     marginTop: 10,
@@ -51,5 +51,6 @@ export default StyleSheet.create({
     height: 42,
     backgroundColor: Color.main,
     alignItems: 'center',
+    borderRadius: 8,
   },
 });
