@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import styles from '../Styles/ProductDetailStyle';
 import Images from '../../Theme/Images';
@@ -13,6 +14,7 @@ import Color from '../../Theme/Color';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Swiper from 'react-native-swiper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import services from '../../Redux/Service/service';
 
 const Content = ({title, content}) => {
   return (
@@ -25,208 +27,51 @@ const Content = ({title, content}) => {
 
 const ProductDetail = (props) => {
   const refRBSheet = useRef();
-  const [dataProductDetail, setdataProductDetail] = useState({
-    name: 'Airpods Pro',
-    image:
-      'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-    number: 12,
-    amount: 1900000,
-    pro: 0.1,
-    note:
-      'Chiếc iPhone 11 với khung máy được làm bằng nhôm và kính, thiết kế màn hình ‘tai thỏ’ LCD 6.1 inch (Liquid Retina) quen thuộc, cụm camera kép được đặt trong khung vuông giúp máy trông cao cấp và sang trọng hơn. Tuy nhiên nếu bạn không thích thiết kế cụm camera nằm trong khung vuông thì hẳn rằng, sẽ không có mẫu iPhone 11 nào có thể hấp dẫn bạn qua vẻ bề ngoài.',
-  });
   const [checkBTS, setCheckBTS] = useState(0);
   const [typeSelected, setTypeSelected] = useState(0);
   const [numberProduct, setNumberProduct] = useState(1);
-  const [dataType, setDataType] = useState([
-    {
-      content: 'Hộp 1 cái',
-    },
-    {
-      content: 'Hộp 3 cái',
-    },
-    {
-      content: 'Hộp 5 cái',
-    },
-    {
-      content: 'Hộp 7 cái',
-    },
-    {
-      content: 'Hộp 9 cái',
-    },
-  ]);
-  const [dataStorage, setDataStorage] = useState([
-    {
-      content: '64 GB',
-    },
-    {
-      content: '128 GB',
-    },
-    {
-      content: '256 GB',
-    },
-    {
-      content: '512 GB',
-    },
-  ]);
-  const [storageSelected, setStorageSelected] = useState(0);
-  const [dataColorProduct, setDataColorProduct] = useState([
-    {
-      colorProduct: 'red',
-      content: 'Đỏ',
-    },
-    {
-      colorProduct: 'white',
-      content: 'Trắng',
-    },
-    {
-      colorProduct: 'black',
-      content: 'Đen',
-    },
-    {
-      colorProduct: 'yellow',
-      content: 'Vàng',
-    },
-  ]);
-  const [colorSelected, setColorSelected] = useState(0);
 
-  const renderContent = () => (
-    <View
-      style={{
-        backgroundColor: 'white',
-        shadowColor: '#000',
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.8,
-        shadowRadius: 0,
-        elevation: 2,
-        // backgroundColor: 'grey',
-        padding: 16,
-        height: 450,
-        justifyContent: 'space-between',
-      }}>
-      <ScrollView>
-        <View style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 20, fontWeight: '600'}}>Thêm vào giỏ</Text>
-          <View
-            style={{
-              justifyContent: 'space-between',
-              width: '100%',
-              marginTop: 20,
-            }}>
-            <Text style={{fontSize: 16, marginBottom: 15}}>
-              Chọn dung lượng bộ nhớ
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              // width: '90%',
-              alignItems: 'center',
-              // marginTop: 15,
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-              flex: 1,
-            }}>
-            {dataType.map((item, index) => {
-              return typeSelected === index ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    setTypeSelected(index);
-                  }}
-                  style={{
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '30%',
-                    height: 50,
-                    marginTop: 15,
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    borderColor: Color.main,
-                    backgroundColor: Color.main,
-                  }}>
-                  <Text style={{color: 'white'}}>{item.content}</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => {
-                    setTypeSelected(index);
-                  }}
-                  style={{
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '30%',
-                    height: 50,
-                    marginTop: 15,
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    borderColor: Color.main,
-                  }}>
-                  <Text style={{color: Color.main}}>{item.content}</Text>
-                </TouchableOpacity>
-              );
-            })}
-            <View
-              style={{
-                justifyContent: 'space-between',
-                width: '100%',
-                marginTop: 20,
-              }}>
-              <Text style={{fontSize: 16, marginBottom: 15}}>
-                Chọn số lượng
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() =>
-                  numberProduct <= 1
-                    ? null
-                    : setNumberProduct(numberProduct - 1)
-                }
-                style={{
-                  width: 35,
-                  height: 35,
-                  backgroundColor: '#F0E9E9',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <MaterialIcons name={'remove'} size={20} color={Color.price} />
-              </TouchableOpacity>
-              <Text style={{fontSize: 20, marginLeft: 30, marginRight: 30}}>
-                {numberProduct}
-              </Text>
-              <TouchableOpacity
-                onPress={() => setNumberProduct(numberProduct + 1)}
-                style={{
-                  width: 35,
-                  height: 35,
-                  backgroundColor: '#F0E9E9',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <MaterialIcons name={'add'} size={20} color={Color.price} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      <TouchableOpacity
-        // onPress={() => props.navigation.navigate('CartScreen')}
-        style={{
-          width: '100%',
-          height: 50,
-          backgroundColor: Color.main,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text style={{color: 'white', fontSize: 16}}>Thêm vào giỏ hàng</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const [data, setdata] = useState([]);
+
+  const service_param = props?.route?.params?.service_param || null;
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await services.getListServiceDetail(service_param);
+  //     setdata(res.data.data);
+  //     // console.log(res.data.data);
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    services
+      .getListServiceDetail(service_param)
+      .then(function (response) {
+        // props.onGetList(response?.data);
+        if (response) {
+          // console.log(response);
+          if (response.data.status_code === 200) {
+            setdata(response.data.data);
+          }
+        } else {
+          Alert.alert('Thông báo!', 'Lỗi!', [{text: 'Đồng ý'}]);
+          return;
+        }
+      })
+      .then(function () {
+        setIsLoading(false);
+      });
+  }, []);
+
+  // console.log(service_param);
 
   return (
     <View style={checkBTS === 0 ? styles.container : styles.containerHint}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        {isLoading && <ActivityIndicator size="large" color={Color.main} />}
+      </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{padding: 15}}>
         <View>
           {/* <View style={{alignItems: 'center'}}>
@@ -236,7 +81,7 @@ const ProductDetail = (props) => {
             />
           </View> */}
           <Swiper
-            style={{height: 300}}
+            style={{height: 250}}
             loop={false}
             showsButtons={false}
             activeDotColor={Color.main}>
@@ -245,42 +90,16 @@ const ProductDetail = (props) => {
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#fff',
+                // backgroundColor: '#9DD6EB',
                 height: 250,
                 width: '100%',
               }}>
               <Image
                 // source={dataProductDetail.image}
                 // resizeMode="contain"
-                source={{uri: dataProductDetail.image}}
+                source={{uri: data.image}}
                 style={{height: 250, width: 200}}
               />
-            </View>
-            <View
-              testID="Beautiful"
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#9DD6EB',
-                height: 250,
-                width: '100%',
-              }}>
-              <Text style={{color: '#fff', fontSize: 30, fontWeight: 'bold'}}>
-                Beautiful
-              </Text>
-            </View>
-            <View
-              testID="Simple"
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#9DD6EB',
-                height: 250,
-                width: '100%',
-              }}>
-              <Text style={{color: '#fff', fontSize: 30, fontWeight: 'bold'}}>
-                And simple
-              </Text>
             </View>
           </Swiper>
           <View
@@ -293,25 +112,22 @@ const ProductDetail = (props) => {
               },
             ]}>
             <Text style={[styles.title, {color: '#111', flex: 1}]}>
-              {dataProductDetail.name}
+              {data?.title}
             </Text>
             {/* <TouchableOpacity
               onPress={() => props.navigation.navigate('CartScreen')}>
               <Image source={Images.addOrder} />
             </TouchableOpacity> */}
           </View>
-          <Content title="Danh mục:" content={dataProductDetail.name} />
-          <Content title="Số lượng:" content={dataProductDetail.number} />
+          <Content title="Danh mục:" content={data?.category_name} />
+          {/* <Content title="Số lượng:" content={dataProductDetail.number} /> */}
           <Content
             title="Giá bán:"
-            content={styles.dynamicSort(dataProductDetail.amount)}
+            content={styles.dynamicSort(data?.price) + ' đ'}
           />
           <Content
             title="Giá khuyến mãi:"
-            content={styles.dynamicSort(
-              dataProductDetail.amount -
-                dataProductDetail.amount * dataProductDetail.pro,
-            )}
+            content={styles.dynamicSort(data?.price_sale) + ' đ'}
           />
           <View
             style={{
@@ -361,29 +177,48 @@ const ProductDetail = (props) => {
               </TouchableOpacity>
             </View>
           </View>
+          {/* <Text
+            style={{
+              color: 'black',
+              marginTop: 20,
+              fontWeight: '700',
+              fontSize: 15,
+              borderBottomWidth: 1,
+              borderBottomColor: '#11111150',
+              paddingBottom: 10,
+            }}>
+            Thông số kỹ thuật
+          </Text> */}
+          {/* <Content
+            title="Công nghệ màn hình:"
+            content={data.attribute.monitors}
+          /> */}
+          {/* <Content title="Hệ điều hành:" content={data.attribute.system} />
+          <Content title="Camera:" content={data.attribute.camera} />
+          <Content title="CPU:" content={data.attribute.cpu} />
+          <Content title="Ram:" content={data.attribute.ram} />
+          <Content title="Bộ nhớ trong:" content={data.attribute.rom} />
+          <Content title="Dung lượng pin:" content={data.attribute.battery} /> */}
+          <Text
+            style={{
+              color: 'black',
+              marginTop: 20,
+              fontWeight: '700',
+              fontSize: 15,
+              borderBottomWidth: 1,
+              borderBottomColor: '#11111150',
+              paddingBottom: 10,
+            }}>
+            Giới thiệu
+          </Text>
+          <Text style={{color: 'black', fontSize: 14, marginTop: 10}}>
+            {data.description}
+          </Text>
           <Text style={[styles.text, {marginTop: 10, marginBottom: 25}]}>
-            {dataProductDetail.note}
+            {data.content}
           </Text>
         </View>
       </ScrollView>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={false}
-        onOpen={() => setCheckBTS(1)}
-        onClose={() => setCheckBTS(0)}
-        height={450}
-        customStyles={{
-          wrapper: {
-            backgroundColor: 'transparent',
-          },
-          draggableIcon: {
-            backgroundColor: '#000',
-          },
-          container: {backgroundColor: 'white'},
-        }}>
-        <View>{renderContent()}</View>
-      </RBSheet>
       <TouchableOpacity
         onPress={() => {
           props.navigation.navigate('CartScreen');

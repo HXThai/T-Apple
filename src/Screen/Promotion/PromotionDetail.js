@@ -17,16 +17,28 @@ import Images from '../../Theme/Images';
 import Color from '../../Theme/Color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHistory} from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+import services from '../../Redux/Service/saleService';
 
 const PromotionDetail = (props) => {
+  const [data, setdata] = useState([]);
+  const sales_param = props?.route?.params?.sales_param || null;
+
+  useEffect(() => {
+    (async () => {
+      const res = await services.getListSalesDetail(sales_param);
+      console.log('sale', res.data.data);
+      setdata(res.data.data);
+    })();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{padding: 15, width: '100%'}}>
           <Image
             source={{
-              uri:
-                'https://giatien.net/thumb/1920x863/1/upload/hinhanh/untitled-2-2513.png',
+              uri: data.image,
             }}
             style={{width: '100%', minHeight: 207}}
           />
@@ -37,23 +49,18 @@ const PromotionDetail = (props) => {
               marginBottom: 15,
               marginTop: 15,
             }}>
-            Tặng dâu tây khi đăng kí thành viên{' '}
+            {data.title}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text>Ngày áp dụng: </Text>
-            <Text style={{fontWeight: '700'}}>12/11/2019</Text>
+            <Text style={{fontWeight: '700'}}>{data.start_at}</Text>
           </View>
 
-          <View style={{flexDirection: 'row', marginBottom: 20}}>
+          <View style={{flexDirection: 'row', marginBottom: 20, marginTop: 10}}>
             <Text>Hạn áp dụng: </Text>
-            <Text style={{fontWeight: '700'}}>31/11/2019</Text>
+            <Text style={{fontWeight: '700'}}>{data.end_at}</Text>
           </View>
-          <Text style={{marginBottom: 25}}>
-            Cảm ơn các bạn đã dành tình cảm cho nhung sản phẩm của mình trong
-            thời gian qua và cho ca khúc này nói riêng. Cảm ơn tất cả nhung phản
-            hồi, góp ý cùng việc hỗ trợ mình chia sẻ những đứa con tinh thần đến
-            với cộng đồng nghe nhạc.
-          </Text>
+          <Text style={{marginBottom: 25}}>{data.content}</Text>
         </View>
       </ScrollView>
     </View>

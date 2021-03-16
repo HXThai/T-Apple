@@ -1,12 +1,18 @@
 import axios from 'axios';
+import storage from '../Screen/asyncStorage/Storage';
 
 const callApiService = {
   get: async (url, body) => {
+    let authorization = await storage.getItem('Authorization');
     // console.log(url, body);
     return axios({
       method: 'get',
       url: url,
       data: body,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      },
     })
       .then(function (response) {
         // console.log(response);
@@ -19,15 +25,16 @@ const callApiService = {
       });
   },
   post: async (url, body) => {
-    console.log(url, '-', body);
+    // console.log(url, '-', body);
+    let authorization = await storage.getItem('Authorization');
     return axios({
       method: 'post',
       url: url,
       data: body,
-      // headers: {
-      //   Authorization: `${token}`,
-      //   // Authorization: JSON.stringify(token),
-      // },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization ? authorization : '',
+      },
     })
       .then(function (response) {
         // console.log('reaaaa post: ', response);

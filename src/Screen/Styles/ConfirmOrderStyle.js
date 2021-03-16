@@ -5,6 +5,7 @@ export default StyleSheet.create({
   ...AppStyles,
   text: {
     fontSize: 14,
+    fontWeight: '700',
     fontFamily: 'Nunito',
     color: '#111111',
   },
@@ -12,6 +13,7 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#111111',
     fontFamily: 'Nunito',
+    fontWeight: '700',
   },
   row: {
     flexDirection: 'row',

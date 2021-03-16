@@ -7,6 +7,7 @@ import {
   ScrollView,
   Dimensions,
   AppState,
+  Linking,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import color from '../Theme/Color';
@@ -22,6 +23,17 @@ import ProductIcon from '../Theme/svg/productIcon.svg';
 import ServiceIcon from '../Theme/svg/dichVuIcon.svg';
 import CouponIcon from '../Theme/svg/coupon.svg';
 import InforIcon from '../Theme/svg/inforIcon.svg';
+
+import * as actionsSales from '../Redux/Action/salesAction';
+import * as actionsNews from '../Redux/Action/newsAction';
+import * as actionsService from '../Redux/Action/serviceAction';
+import * as actionsService_highlight from '../Redux/Action/service_highlightAction';
+
+import moment from 'moment';
+import services from '../Redux/Service/service';
+import {connect} from 'react-redux';
+
+// import Reactotron from 'reactotron-react-native';
 
 const Button = ({image, onclick}) => {
   return (
@@ -72,194 +84,17 @@ const Home = (props) => {
     },
   ]);
 
-  const [dataSale, setDataSale] = useState([
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening to this while biking ... ',
-      timeStart: '12/11/2020',
-      timeEnd: '12/11/2020',
-    },
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening to this while biking ... ',
-      timeStart: '12/11/2020',
-      timeEnd: '12/11/2020',
-    },
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening to this while biking ... ',
-      timeStart: '12/11/2020',
-      timeEnd: '12/11/2020',
-    },
-  ]);
+  const [dataAccessories, setDataAccessories] = useState([]);
 
-  const [dataNews, setDataNews] = useState([
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening ... ',
-      timeStart: '11/2020',
-      timeEnd: '12/2020',
-      dateSubmit: '12/12/2020',
-    },
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening ... ',
-      timeStart: '11/2020',
-      timeEnd: '12/2020',
-      dateSubmit: '12/12/2020',
-    },
-    {
-      image: Images.bannerSale,
-      title: 'Just imagine listening ... ',
-      timeStart: '11/2020',
-      timeEnd: '12/2020',
-      dateSubmit: '12/12/2020',
-    },
-  ]);
+  // Reactotron.log(dataAccessories);
 
-  const [dataProduct, setDataProduct] = useState([
-    {
-      id: 1,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 1,
-    },
-    {
-      id: 2,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 7,
-    },
-    {
-      id: 3,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 9,
-    },
-    {
-      id: 4,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 19,
-    },
-
-    {
-      id: 5,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 10,
-    },
-    {
-      id: 6,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 2,
-    },
-    {
-      id: 7,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 0,
-    },
-    {
-      id: 8,
-      title: 'Iphone11',
-      image: 'https://clickbuy.com.vn/uploads/2019/09/thumb_iP11_7-600x600.jpg',
-      amount: 19000000,
-      pro: 0.1,
-      number: 13,
-    },
-  ]);
-
-  const [dataAccessories, setDataAccessories] = useState([
-    {
-      id: 1,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 1,
-    },
-    {
-      id: 2,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 7,
-    },
-    {
-      id: 3,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 9,
-    },
-    {
-      id: 4,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 19,
-    },
-
-    {
-      id: 5,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 10,
-    },
-    {
-      id: 6,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 2,
-    },
-    {
-      id: 7,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 0,
-    },
-    {
-      id: 8,
-      title: 'Airpods Pro',
-      image:
-        'https://antien.vn/uploaded/Apple%20Airpods%20Pro/Tai-nghe-Apple-Airpods-pro.jpg',
-      amount: 2500000,
-      pro: 0.1,
-      number: 13,
-    },
-  ]);
+  useEffect(() => {
+    (async () => {
+      const res = await services.getListAccessoriesHighlight({limit: 6});
+      setDataAccessories(res.data.data);
+      // console.log('thaimeo', res.data.data);
+    })();
+  }, []);
 
   const [modalVisible, setModalVisible] = useState(false);
   //   useEffect(() => {
@@ -290,6 +125,24 @@ const Home = (props) => {
     //   ,
     // );}
   }, []);
+
+  const salesData = props.dataSale.responseSales;
+  useEffect(() => {
+    props.onGetListSales_hightlight({limit: 3});
+  }, [props.onGetListSales_hightlight]);
+
+  const service_highlight =
+    props.dataServiceHighlight.responseService_highlightReducer;
+  useEffect(() => {
+    props.onGetListService_highlight({limit: 6});
+  }, [props.onGetListService_highlight]);
+
+  const newsData = props.dataNews.responseDataNewsHighlight;
+  useEffect(() => {
+    props.onGetListNewsHighlight({limit: 3});
+  }, [props.onGetListNewsHighlight]);
+
+  // console.log('thai', service_highlight);
 
   return (
     <LinearGradient
@@ -420,20 +273,6 @@ const Home = (props) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                {/* <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    padding: 10,
-                  }}>
-                  <Text style={[styles.title, {flex: 1, fontWeight: 'bold'}]}>
-                    Giatien chào mừng
-                  </Text>
-                  <Button image={Images.phone} onclick={() => {}} />
-                  <Button image={Images.iconComment} onclick={() => {}} />
-                  <Button image={Images.gps} onclick={() => {}} />
-                </View> */}
-                {/* <View style={{height: 10, backgroundColor: '#11111150'}} /> */}
                 <View
                   style={{
                     flexDirection: 'row',
@@ -551,9 +390,14 @@ const Home = (props) => {
                     <ScrollView
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}>
-                      {dataSale.map((item, index) => {
+                      {salesData?.data?.data?.map((item, index) => {
                         return (
-                          <View
+                          <TouchableOpacity
+                            onPress={() => {
+                              props.navigation.navigate('PromotionDetail', {
+                                sales_param: item.id,
+                              });
+                            }}
                             key={index}
                             style={{
                               shadowColor: '#000',
@@ -572,7 +416,7 @@ const Home = (props) => {
                               marginLeft: 2,
                             }}>
                             <Image
-                              source={item.image}
+                              source={{uri: item.image}}
                               style={{
                                 width: '100%',
                                 height: 200,
@@ -588,7 +432,7 @@ const Home = (props) => {
                               }}>
                               <Image source={Images.Iconmaterialhistory} />
                               <Text style={[styles.text, {marginLeft: 10}]}>
-                                Áp dụng từ {item.timeStart} đến {item.timeEnd}
+                                Khuyến mãi từ: {item.start_at} - {item.end_at}
                               </Text>
                             </View>
                             <Text
@@ -599,7 +443,7 @@ const Home = (props) => {
                               numberOfLines={1}>
                               {item.title}
                             </Text>
-                          </View>
+                          </TouchableOpacity>
                         );
                       })}
                     </ScrollView>
@@ -649,9 +493,19 @@ const Home = (props) => {
                       justifyContent: 'space-around',
                       flexDirection: 'row',
                     }}>
-                    {dataProduct.map((item, index) => {
+                    {service_highlight?.data?.data?.map((item, index) => {
                       return (
-                        <View
+                        <TouchableOpacity
+                          onPress={() => {
+                            // console.log('id home', item.id);
+                            // props.navigation.reset({
+                            //   index: 0,
+                            //   routes: [{name: 'ProductDetail'}],
+                            // });
+                            props.navigation.navigate('ProductDetail', {
+                              service_param: item.id,
+                            });
+                          }}
                           key={index}
                           style={{
                             width: '45%',
@@ -661,26 +515,23 @@ const Home = (props) => {
                             marginBottom: 10,
                             marginTop: 10,
                           }}>
-                          <TouchableOpacity
-                            style={{alignItems: 'center'}}
-                            onPress={() =>
-                              props.navigation.navigate('ProductDetail')
-                            }>
+                          <View style={{alignItems: 'center'}}>
                             <Image
                               source={{uri: item.image}}
-                              style={{height: 100, width: 100}}
+                              style={{height: 120, width: 100}}
                             />
-                          </TouchableOpacity>
+                          </View>
                           <View style={{padding: 10}}>
                             <Text style={[styles.text, {fontWeight: '100'}]}>
-                              {item.title}{' '}
+                              {item.title}
                             </Text>
                             <Text
                               style={[
                                 styles.text,
                                 {fontSize: 12, color: 'gray'},
                               ]}>
-                              Số lượng: {item.number}
+                              Ram: {item.attribute.ram} - Rom:{' '}
+                              {item.attribute.rom}
                             </Text>
                             <View
                               style={{
@@ -696,9 +547,7 @@ const Home = (props) => {
                                 }}>
                                 <Text
                                   style={[styles.text, {fontWeight: 'bold'}]}>
-                                  {styles.dynamicSort(
-                                    item.amount - item.amount * item.pro,
-                                  )}
+                                  {styles.dynamicSort(item.price_sale) + ' đ'}
                                 </Text>
                                 <Text
                                   style={[
@@ -708,8 +557,7 @@ const Home = (props) => {
                                       fontSize: 12,
                                     },
                                   ]}>
-                                  {' '}
-                                  {styles.dynamicSort(item.amount)}
+                                  {styles.dynamicSort(item.price) + ' đ'}
                                 </Text>
                               </View>
                               {/* <TouchableOpacity
@@ -720,7 +568,7 @@ const Home = (props) => {
                               </TouchableOpacity> */}
                             </View>
                           </View>
-                        </View>
+                        </TouchableOpacity>
                       );
                     })}
                   </View>
@@ -770,9 +618,17 @@ const Home = (props) => {
                       justifyContent: 'space-around',
                       flexDirection: 'row',
                     }}>
-                    {dataAccessories.map((item, i) => {
+                    {dataAccessories?.data?.map((item, i) => {
                       return (
-                        <View
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.navigation.navigate(
+                              'AccessoriesDetailScreen',
+                              {
+                                service_param: item.id,
+                              },
+                            )
+                          }
                           key={i}
                           style={{
                             width: '45%',
@@ -782,29 +638,23 @@ const Home = (props) => {
                             marginBottom: 10,
                             marginTop: 10,
                           }}>
-                          <TouchableOpacity
-                            style={{alignItems: 'center'}}
-                            onPress={() =>
-                              props.navigation.navigate(
-                                'AccessoriesDetailScreen',
-                              )
-                            }>
+                          <View style={{alignItems: 'center'}}>
                             <Image
                               source={{uri: item.image}}
-                              style={{height: 100, width: 100}}
+                              style={{height: 120, width: 100}}
                             />
-                          </TouchableOpacity>
+                          </View>
                           <View style={{padding: 10}}>
                             <Text style={[styles.text, {fontWeight: '100'}]}>
                               {item.title}{' '}
                             </Text>
-                            <Text
+                            {/* <Text
                               style={[
                                 styles.text,
                                 {fontSize: 12, color: 'gray'},
                               ]}>
                               Số lượng: {item.number}
-                            </Text>
+                            </Text> */}
                             <View
                               style={{
                                 flexDirection: 'row',
@@ -819,9 +669,7 @@ const Home = (props) => {
                                 }}>
                                 <Text
                                   style={[styles.text, {fontWeight: 'bold'}]}>
-                                  {styles.dynamicSort(
-                                    item.amount - item.amount * item.pro,
-                                  )}
+                                  {styles.dynamicSort(item.price_sale) + ' đ'}
                                 </Text>
                                 <Text
                                   style={[
@@ -832,7 +680,7 @@ const Home = (props) => {
                                     },
                                   ]}>
                                   {' '}
-                                  {styles.dynamicSort(item.amount)}
+                                  {styles.dynamicSort(item.price) + ' đ'}
                                 </Text>
                               </View>
                               {/* <TouchableOpacity
@@ -843,7 +691,7 @@ const Home = (props) => {
                               </TouchableOpacity> */}
                             </View>
                           </View>
-                        </View>
+                        </TouchableOpacity>
                       );
                     })}
                   </View>
@@ -903,9 +751,14 @@ const Home = (props) => {
                       alignItems: 'center',
                       marginTop: 8,
                     }}>
-                    {dataNews.map((item, index) => {
+                    {newsData?.data?.data?.map((item, index) => {
                       return (
-                        <View
+                        <TouchableOpacity
+                          onPress={() =>
+                            props.navigation.navigate('NewsDetail', {
+                              news_param: item.id,
+                            })
+                          }
                           key={index}
                           style={{
                             margin: 10,
@@ -914,7 +767,7 @@ const Home = (props) => {
                             flexDirection: 'row',
                           }}>
                           <Image
-                            source={item.image}
+                            source={{uri: item.image}}
                             style={{
                               width: 100,
                               height: 100,
@@ -927,29 +780,34 @@ const Home = (props) => {
                               justifyContent: 'space-evenly',
                               marginLeft: 10,
                             }}>
+                            <Text
+                              style={[styles.title, {color: '#111'}]}
+                              numberOfLines={1}>
+                              {item.title}
+                            </Text>
                             <View
                               style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 marginTop: 5,
                               }}>
-                              <Image source={Images.Iconmaterialhistory} />
-                              <Text style={[styles.text, {marginLeft: 10}]}>
-                                Áp dụng từ {item.timeStart} đến {item.timeEnd}
+                              <Text
+                                numberOfLines={1}
+                                style={[styles.text, {width: '85%'}]}>
+                                {item.summary}
                               </Text>
                             </View>
+
                             <Text
                               style={[styles.title, {color: '#111'}]}
                               numberOfLines={1}>
-                              {item.title}
-                            </Text>
-                            <Text
-                              style={[styles.title, {color: '#111'}]}
-                              numberOfLines={1}>
-                              Ngày đăng: {item.dateSubmit}
+                              Ngày đăng:{' '}
+                              {moment(item.created_at).format(
+                                'h:mm DD/MM/YYYY',
+                              )}
                             </Text>
                           </View>
-                        </View>
+                        </TouchableOpacity>
                       );
                     })}
                   </View>
@@ -1004,4 +862,30 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  // console.log("data : " ,state.homeReducer);
+  return {
+    data: state.homeReducer,
+    dataSale: state.salesReducer,
+    dataNews: state.newsReducer,
+    dataService: state.serviceReducer,
+    dataServiceHighlight: state.service_highlightReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetListSales_hightlight: (params) => {
+    dispatch(actionsSales.getSalesHighlight(params));
+  },
+  onGetListNewsHighlight: (params) => {
+    dispatch(actionsNews.getNewsHighlight(params));
+  },
+  onGetListService: (params) => {
+    dispatch(actionsService.getService(params));
+  },
+  onGetListService_highlight: (params) => {
+    dispatch(actionsService_highlight.getServiceHighLight(params));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -119,18 +119,13 @@ const ServiceScreen = (props) => {
           <FlatList
             data={data}
             renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate('AccessoriesDetailScreen')
-                }>
-                <FLatlistItem
-                  shop_name={item.shop_name}
-                  date={item.date}
-                  address={item.address}
-                  avata={item.avata}
-                  status={item.status}
-                />
-              </TouchableOpacity>
+              <FLatlistItem
+                shop_name={item.shop_name}
+                date={item.date}
+                address={item.address}
+                avata={item.avata}
+                status={item.status}
+              />
             )}
             // keyExtractor={id}
           />

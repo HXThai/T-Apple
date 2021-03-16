@@ -37,7 +37,30 @@ export function* watchServiceHighlight() {
   );
 }
 
+export function* getListAccessories(params) {
+  try {
+    let data = yield call(services.getListAccessories, params.payload);
+    yield put(actions.getAccessoriesSuccess(data.data));
+  } catch (error) {
+    yield put(actions.getAccessoriesFaild(error.message));
+  }
+}
+
+export function* getCategoriesAccessories(params) {
+  try {
+    let data = yield call(services.getCategoriesAccessories, params.payload);
+    yield put(actions.getCategoriesAccessoriesSuccess(data.data));
+  } catch (error) {
+    yield put(actions.getCategoriesAccessoriesFaild(error.message));
+  }
+}
+
 export function* watchService() {
   yield takeLatest(actions.ACTION_GET_SERVICE, getListService);
   yield takeLatest(actions.ACTION_GET_CATEGORIES_SERVICE, getCategoriesService);
+  yield takeLatest(actions.ACTION_GET_ACCESSORIES, getListAccessories);
+  yield takeLatest(
+    actions.ACTION_GET_CATEGORIES_ACCESSORIES,
+    getCategoriesAccessories,
+  );
 }

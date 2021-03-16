@@ -35,9 +35,14 @@ const LoginScreen = (props) => {
       .then(async function (response) {
         // console.log(response);
         if (response) {
-          // console.log(response?.data);
+          console.log(response);
           if (response?.data?.status_code === 200) {
-            storage.setItem('userLogin', response?.data?.data);
+            storage.setItem('dataLogin', {
+              phone: phone,
+              password: password,
+            });
+            storage.setItem('userLogin', response?.data.data);
+            storage.setItem('Authorization', response?.data.data.token);
             // console.log(response?.data?.data);
             props.navigation.navigate('TabNav');
           } else {

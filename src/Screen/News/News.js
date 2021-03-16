@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -18,31 +19,43 @@ import Images from '../../Theme/Images';
 import Color from '../../Theme/Color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHistory} from '@fortawesome/free-solid-svg-icons';
+import {connect} from 'react-redux';
+import * as actions from '../../Redux/Action/newsAction';
+import moment from 'moment';
 
 const News = (props) => {
-  const [news, setNews] = useState([
-    {
-      title: 'Sắp ra mắt Iphone12 với thiết kế giống Iphone5',
-      expiration: '21/10/2019',
-      description: 'Just imagine listening to this while biking ... ',
-      image:
-        'https://ict-imgs.vgcloud.vn/2020/08/31/10/co-nen-mua-iphone-12-pro-max-ma-n-hi-nh-120hz.jpg',
-    },
-    {
-      title: 'Iphone XR 2019 ???',
-      expiration: '21/10/2019',
-      description: 'Just imagine listening to this while biking ... ',
-      image:
-        'https://hoanghamobile.com/tin-tuc/wp-content/uploads/2020/04/1-41-696x464.jpg',
-    },
-  ]);
   var deviceWidth = Dimensions.get('window').width;
+
+  const newsData = props.data.responseData;
+
+  useEffect(() => {
+    props.onGetList({});
+  }, [props.onGetList]);
+
+  if (props.data.loadingData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <ActivityIndicator size="large" color={Color.main} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        {news.map((promotion) => (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {newsData?.data?.data?.map((promotion) => (
           <View style={{padding: 10}}>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('NewsDetail', {
+                  news_param: promotion.id,
+                })
+              }
               style={{
                 padding: 10,
                 backgroundColor: '#fff',
@@ -60,7 +73,13 @@ const News = (props) => {
                   height: 207,
                 }}
               />
-              <Text style={{fontSize: 14, fontWeight: '700', marginBottom: 7}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '700',
+                  marginBottom: 7,
+                  marginTop: 5,
+                }}>
                 {promotion.title}
               </Text>
               <View
@@ -75,23 +94,13 @@ const News = (props) => {
                   size={15}
                 />
                 <Text style={{fontSize: 12, fontWeight: '400'}}>
-                  {promotion.expiration}
+                  {moment(promotion.created_at).format('h:mm DD/MM/YYYY')}
                 </Text>
               </View>
-              <Text style={{fontSize: 14, fontWeight: '500'}}>
-                {promotion.description}
+              <Text numberOfLines={1} style={{fontSize: 14, fontWeight: '500'}}>
+                {promotion.summary}
               </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  color: '#FF0000',
-                  marginBottom: 10,
-                }}
-                onPress={() => props.navigation.navigate('NewsDetail')}>
-                Xem chi tiết
-              </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -99,4 +108,15 @@ const News = (props) => {
   );
 };
 
-export default News;
+const mapStateToProps = (state) => {
+  return {
+    data: state.newsReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetList: (params) => {
+    dispatch(actions.getData(params));
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(News);

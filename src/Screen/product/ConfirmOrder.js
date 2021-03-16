@@ -75,7 +75,7 @@ const ConfirmOrder = (props) => {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.views}>
+        {/* <View style={styles.views}>
           <Text style={styles.text}>Thông tin shop</Text>
         </View>
 
@@ -113,13 +113,13 @@ const ConfirmOrder = (props) => {
               <Text style={styles.text}> {data.phone}</Text>
             </View>
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.views}>
+        {/* <View style={styles.views}>
           <Text style={styles.text}>Thông tin hàng</Text>
           <Text style={styles.text}>Thời gian: 14h, T2,12.09.2019</Text>
           <Text style={styles.text}>Địa điểm nhận hàng: nhận tại shop</Text>
-        </View>
+        </View> */}
 
         <View style={styles.views}>
           <Text style={styles.text}>Sản phẩm</Text>
@@ -149,9 +149,12 @@ const ConfirmOrder = (props) => {
               {styles.dynamicSort(50000000)}đ
             </Text>
           </View>
-          <Text style={[styles.text, {color: 'gray'}]}>
+          <Text style={[styles.text, {}]}>
             Hình thức thanh toán:
-            <Text style={[styles.text, {color: 'red'}]}> Tiền mặt</Text>
+            <Text style={[styles.text, {color: 'red'}]}>
+              {' '}
+              Thanh toán khi nhận hàng
+            </Text>
           </Text>
           <TextInput
             style={[

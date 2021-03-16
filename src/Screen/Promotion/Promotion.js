@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -18,31 +19,43 @@ import Images from '../../Theme/Images';
 import Color from '../../Theme/Color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHistory} from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+import * as actions from '../../Redux/Action/salesAction';
+import {connect} from 'react-redux';
 
 const Promotion = (props) => {
-  const [promotions, setPromotions] = useState([
-    {
-      title: 'Giảm 10% khi đăng ký thành viên',
-      expiration: 'Áp dung từ 21/10/2019 đến 31/11/2019',
-      description: 'Just imagine listening to this while biking ... ',
-      image:
-        'https://cdn.cellphones.com.vn/media/wysiwyg/mobile/apple/iphone-12-1_3.jpg',
-    },
-    {
-      title: 'Giảm 10% khi đăng ký thành viên',
-      expiration: 'Áp dung từ 21/10/2019 đến 31/11/2019',
-      description: 'Just imagine listening to this while biking ... ',
-      image:
-        'https://cdn.cellphones.com.vn/media/wysiwyg/mobile/apple/iphone-12-5_1.jpg',
-    },
-  ]);
   var deviceWidth = Dimensions.get('window').width;
+  const salesData = props.data.responseSales;
+  console.log('saleData', salesData);
+
+  useEffect(() => {
+    props.onGetList({});
+  }, [props.onGetList]);
+
+  if (props.data.loadingSales) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <ActivityIndicator size="large" color={Color.main} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        {promotions.map((promotion) => (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {salesData?.data?.data?.map((promotion) => (
           <View style={{padding: 10}}>
-            <View
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('PromotionDetail', {
+                  sales_param: promotion.id,
+                });
+              }}
               style={{
                 padding: 10,
                 backgroundColor: '#fff',
@@ -53,11 +66,14 @@ const Promotion = (props) => {
               <Text style={{fontSize: 14, fontWeight: '700', marginBottom: 7}}>
                 {promotion.title}
               </Text>
+              <Text numberOfLines={1} style={{fontSize: 14, fontWeight: '500'}}>
+                {promotion.summary}
+              </Text>
               <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginBottom: 7,
+                  marginTop: 7,
                 }}>
                 <FontAwesomeIcon
                   icon={faHistory}
@@ -65,33 +81,20 @@ const Promotion = (props) => {
                   size={15}
                 />
                 <Text style={{fontSize: 12, fontWeight: '400'}}>
-                  {promotion.expiration}
+                  Khuyến mãi từ {promotion.start_at} đến {promotion.end_at}
                 </Text>
               </View>
-              <Text style={{fontSize: 14, fontWeight: '500'}}>
-                {promotion.description}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  color: '#FF0000',
-                  marginBottom: 10,
-                }}
-                onPress={() => {
-                  props.navigation.navigate('PromotionDetail');
-                }}>
-                Xem chi tiết
-              </Text>
+
               <Image
                 source={{uri: promotion.image}}
                 style={{
                   resizeMode: 'cover',
                   width: deviceWidth - 40,
                   minHeight: 207,
+                  marginTop: 10,
                 }}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -99,4 +102,16 @@ const Promotion = (props) => {
   );
 };
 
-export default Promotion;
+const mapStateToProps = (state) => {
+  return {
+    data: state.salesReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetList: (params) => {
+    dispatch(actions.getSales(params));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Promotion);

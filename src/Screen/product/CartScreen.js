@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Alert,
 } from 'react-native';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -16,96 +17,77 @@ import styles from '../Styles/CartStyle';
 import Images from '../../Theme/Images';
 import Color from '../../Theme/Color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-const FLatlistItem = ({name, image, amount, pro, number}) => {
-  return (
-    <View style={{marginTop: 15, flexDirection: 'row', alignItems: 'center'}}>
-      <View style={{height: 60, width: 60}}>
-        <Image source={{uri: image}} style={{width: '100%', height: '100%'}} />
-      </View>
-      <View style={{flex: 1, marginLeft: 5, justifyContent: 'space-between'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <View
-            style={{
-              width: '90%',
-              // borderColor: '#111111',
-              // borderWidth: 1,
-              // padding: 5,
-              borderRadius: 20,
-              // paddingLeft: 10,
-            }}>
-            <Text style={styles.text}>{name}</Text>
-          </View>
-          <TouchableOpacity>
-            <Image source={Images.binIcon} />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginTop: 8,
-          }}>
-          <Text style={[styles.text, {fontWeight: 'bold'}]}>
-            {styles.dynamicSort(amount - amount * pro)}
-          </Text>
-          <Text
-            style={[
-              styles.text,
-              {textDecorationLine: 'line-through', fontSize: 12},
-            ]}>
-            {styles.dynamicSort(amount)}
-          </Text>
-          <View
-            style={{
-              borderColor: '#111',
-              borderWidth: 1,
-              width: 30,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={styles.text}>{number}</Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-};
+import storage from './../asyncStorage/Storage';
 
 const CartScreen = (props) => {
   const [check, setCheck] = useState(0);
-  const [dataProduct, setDataProduct] = useState([
-    {
-      id: 1,
-      name: 'Iphone 11',
-      image:
-        'https://didongviet.vn/pub/media/catalog/product//i/p/iphone-11-didongviet_3_8.jpg',
-      amount: 21000000,
-      pro: 0.09,
-      number: 2,
-    },
-    {
-      id: 2,
-      name: 'Iphone 12',
-      image:
-        'https://vietmystore.vn/storage/san-pham/iphone12/iphone-12-pro-family-hero-all.jpeg',
-      amount: 31000000,
-      pro: 0.12,
-      number: 1,
-    },
-  ]);
+  const [dataProduct, setDataProduct] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    storage.getItem('dataCart').then((data) => {
+      // console.log(data);
+      if (data) {
+        console.log(data);
+        setDataProduct(data);
+        var totalP = 0;
+        var totalN = 0;
+        data.forEach((element) => {
+          // console.log(element);
+          totalP += parseFloat(element.data.price_sale);
+          totalN += parseFloat(element.product_amount);
+        });
+        // console.log(total);
+        setTotalPrice(totalP);
+        setTotalAmount(totalN);
+      } else {
+      }
+    });
+    // console.log(dataProduct);
+    // console.log(ttp);
+  }, []);
+
+  const handleDelete = (index) => {
+    // console.log(index);
+    // setDataProduct(dataProduct.splice(index, 1));
+    // console.log(dataProduct);
+    Alert.alert(
+      'Thông báo!',
+      'Bạn chắc chắn muốn xóa săn phẩm khỏi giỏ hàng?',
+      [
+        {text: 'Hủy'},
+        {
+          text: 'Đồng ý',
+          onPress: () => {
+            const newData = dataProduct.filter(
+              (item) => item.data.id !== index,
+            );
+            setDataProduct(newData);
+            var totalP = 0;
+            var totalN = 0;
+            newData.forEach((element) => {
+              // console.log(element);
+              totalP += parseFloat(element.data.price_sale);
+              totalN += parseFloat(element.product_amount);
+            });
+            // console.log(total);
+            setTotalPrice(totalP);
+            setTotalAmount(totalN);
+            storage.setItem('dataCart', newData);
+          },
+        },
+      ],
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {dataProduct.map((item, index) => {
           return (
             <View
+              key={index}
               style={{
                 marginTop: 10,
                 flexDirection: 'row',
@@ -116,9 +98,10 @@ const CartScreen = (props) => {
                 elevation: 3,
                 margin: 10,
               }}>
+              {/* {setTotalAmount(totalAmount + item.data.price_sale)} */}
               <View style={{height: 60, width: 60}}>
                 <Image
-                  source={{uri: item.image}}
+                  source={{uri: item.data.image}}
                   style={{width: '100%', height: '100%'}}
                 />
               </View>
@@ -143,10 +126,17 @@ const CartScreen = (props) => {
                       borderRadius: 20,
                       // paddingLeft: 10,
                     }}>
-                    <Text style={styles.text}>{item.name}</Text>
+                    <Text style={styles.text}>{item.data.title}</Text>
                   </View>
-                  <TouchableOpacity>
-                    <Image source={Images.binIcon} />
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleDelete(item.data.id);
+                    }}>
+                    <MaterialIcons
+                      name={'delete'}
+                      size={24}
+                      style={{color: 'red'}}
+                    />
                   </TouchableOpacity>
                 </View>
                 <View
@@ -157,14 +147,15 @@ const CartScreen = (props) => {
                     marginTop: 8,
                   }}>
                   <Text style={[styles.text, {fontWeight: 'bold'}]}>
-                    {styles.dynamicSort(item.amount - item.amount * item.pro)}
+                    {styles.dynamicSort(item.data.price_sale)} đ
                   </Text>
+
                   <Text
                     style={[
                       styles.text,
                       {textDecorationLine: 'line-through', fontSize: 12},
                     ]}>
-                    {styles.dynamicSort(item.amount)}
+                    {styles.dynamicSort(item.data.price)} đ
                   </Text>
                   <View
                     style={{
@@ -175,7 +166,7 @@ const CartScreen = (props) => {
                       justifyContent: 'center',
                       borderRadius: 4,
                     }}>
-                    <Text style={styles.text}>{item.number}</Text>
+                    <Text style={styles.text}>{item.product_amount}</Text>
                   </View>
                 </View>
               </View>
@@ -192,7 +183,7 @@ const CartScreen = (props) => {
             justifyContent: 'space-between',
           }}>
           <Text style={styles.text}>Số lượng hàng</Text>
-          <Text style={styles.text}>3</Text>
+          <Text style={styles.text}>{totalAmount}</Text>
         </View>
         <View
           style={{
@@ -202,7 +193,7 @@ const CartScreen = (props) => {
           }}>
           <Text style={styles.text}>Thành tiền</Text>
           <Text style={[styles.text, {fontWeight: 'bold'}]}>
-            {styles.dynamicSort(50000000)}đ
+            {styles.dynamicSort(totalPrice)} đ
           </Text>
         </View>
         <TouchableOpacity
@@ -215,7 +206,9 @@ const CartScreen = (props) => {
             width: '100%',
             borderRadius: 10,
           }}
-          onPress={() => props.navigation.navigate('Order')}>
+          onPress={() =>
+            props.navigation.navigate('Order', {service_param: dataProduct})
+          }>
           <Text style={[styles.title, {color: '#fff'}]}>
             Tiến hành đặt hàng
           </Text>

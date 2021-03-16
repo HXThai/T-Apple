@@ -10,6 +10,16 @@ const initialServiceState = {
   responseCategoriesService: null,
   loadingCategoriesService: false,
   msgCategoriesService: null,
+
+  isErrorAccessories: false,
+  responseAccessories: null,
+  loadingAccessories: false,
+  msgAccessories: null,
+
+  isErrorCategoriesAccessories: false,
+  responseCategoriesAccessories: null,
+  loadingCategoriesAccessories: false,
+  msgCategoriesAccessories: null,
 };
 
 const serviceReducer = (state = initialServiceState, action) => {
@@ -65,6 +75,60 @@ const serviceReducer = (state = initialServiceState, action) => {
         responseCategoriesService: null,
         loadingCategoriesService: false,
         msgCategoriesService: action.payload,
+      };
+
+    case actions.ACTION_GET_ACCESSORIES:
+      return {
+        ...state,
+        isErrorAccessories: false,
+        responseAccessories: null,
+        loadingAccessories: true,
+        msgAccessories: null,
+      };
+
+    case actions.ACTION_GET_ACCESSORIES_SUCCESS:
+      return {
+        ...state,
+        isErrorAccessories: false,
+        responseAccessories: action.payload,
+        loadingAccessories: false,
+        msgAccessories: null,
+      };
+
+    case actions.ACTION_GET_ACCESSORIES_FAILD:
+      return {
+        ...state,
+        isErrorAccessories: true,
+        responseAccessories: null,
+        loadingAccessories: false,
+        msgAccessories: action.payload,
+      };
+
+    case actions.ACTION_GET_CATEGORIES_ACCESSORIES:
+      return {
+        ...state,
+        isErrorCategoriesAccessories: false,
+        responseCategoriesAccessories: null,
+        loadingCategoriesAccessories: true,
+        msgCategoriesAccessories: null,
+      };
+
+    case actions.ACTION_GET_CATEGORIES_ACCESSORIES_SUCCESS:
+      return {
+        ...state,
+        isErrorCategoriesAccessories: false,
+        responseCategoriesAccessories: action.payload,
+        loadingCategoriesAccessories: false,
+        msgCategoriesAccessories: null,
+      };
+
+    case actions.ACTION_GET_CATEGORIES_ACCESSORIES_FAILD:
+      return {
+        ...state,
+        isErrorCategoriesAccessories: true,
+        responseCategoriesAccessories: null,
+        loadingCategoriesAccessories: false,
+        msgCategoriesAccessories: action.payload,
       };
     default:
       return state;
