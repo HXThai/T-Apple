@@ -20,29 +20,30 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHistory} from '@fortawesome/free-solid-svg-icons';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import services from '../../Redux/Service/notificationService';
 
 const NotificationScreen = (props) => {
-  const [dataNotification, setDataNotification] = useState([
-    {
-      title: 'Ra mắt mẫu Iphone mới!',
-      description: 'Just imagine listening ... ',
-      image: Images.bannerSale,
-      dateSubmit: '3 giờ trước',
-    },
-    {
-      title: 'Ra mắt mẫu Iphone mới!',
-      description: 'Just imagine listening ... ',
-      image: Images.bannerSale,
-      dateSubmit: '3 giờ trước',
-    },
-    {
-      title: 'Ra mắt mẫu Iphone mới!',
-      description: 'Just imagine listening ... ',
-      image: Images.bannerSale,
-      dateSubmit: '3 giờ trước',
-    },
-  ]);
+  const [dataNotification, setDataNotification] = useState([]);
   var deviceWidth = Dimensions.get('window').width;
+
+  // const [data, setData] = useState([]);
+
+  useEffect(() => {
+    services.getListNotification({}).then(function (response) {
+      // props.onGetList(response?.data);
+      if (response) {
+        // console.log(response);
+        if (response.data.status_code === 200) {
+          // console.log(response?.data?.data?.data[0].product);
+          setDataNotification(response?.data?.data?.data);
+        }
+      } else {
+        Alert.alert('Thông báo!', 'Lỗi!', [{text: 'Đồng ý'}]);
+        return;
+      }
+    });
+  }, []);
+
   return (
     <LinearGradient
       colors={[Color.gradientStart, Color.gradientMiddle, Color.gradientEnd]}
@@ -58,8 +59,11 @@ const NotificationScreen = (props) => {
             backgroundColor: '#FFFFFF',
             flexDirection: 'column',
             paddingBottom: 30,
+            // marginBottom: 20,
           }}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{marginBottom: 20}}>
             <View
               style={{
                 width: '100%',
@@ -98,7 +102,7 @@ const NotificationScreen = (props) => {
                       alignItems: 'center',
                     }}>
                     <Image
-                      source={item.image}
+                      source={{uri: item.image}}
                       style={{
                         width: 90,
                         height: 90,
@@ -115,7 +119,12 @@ const NotificationScreen = (props) => {
                       }}>
                       <Text
                         style={[
-                          {color: '#111', fontSize: 16, fontWeight: '700'},
+                          {
+                            color: 'black',
+                            fontSize: 16,
+                            fontWeight: '700',
+                            width: '85%',
+                          },
                         ]}
                         numberOfLines={1}>
                         {item.title}
@@ -125,13 +134,17 @@ const NotificationScreen = (props) => {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        <Text style={[styles.text]}>{item.description}</Text>
+                        <Text
+                          numberOfLines={1}
+                          style={[styles.text, {width: '85%'}]}>
+                          {item.body}
+                        </Text>
                       </View>
 
                       <Text
                         style={[styles.title, {color: '#111'}]}
                         numberOfLines={1}>
-                        {item.dateSubmit}
+                        {item.create_at}
                       </Text>
                     </View>
                   </TouchableOpacity>

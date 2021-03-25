@@ -25,6 +25,8 @@ const API_BASE_URL = {
 
   NEW_ORDER: ROOT_DOMAIN + '/order/store',
   ORDER_HISTORY: ROOT_DOMAIN + '/order/list',
+
+  GET_LIST_NOTIFICATION: ROOT_DOMAIN + '/notification/list',
 };
 
 export {API_BASE_URL, ROOT_DOMAIN};

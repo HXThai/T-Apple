@@ -68,7 +68,7 @@ const Product = (props) => {
           // console.log(response);
           if (response.data.status_code === 200) {
             // setDataProduct(response?.data?.data?.data);
-            // console.log(response.data.data.data);
+            console.log(response.data.data.data);
             setDataProduct((prev) => [...prev, ...response?.data?.data?.data]);
           }
         } else {

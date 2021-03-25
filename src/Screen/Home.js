@@ -127,12 +127,14 @@ const Home = (props) => {
   }, []);
 
   const salesData = props.dataSale.responseSales;
+  // console.log('sale', salesData);
   useEffect(() => {
     props.onGetListSales_hightlight({limit: 3});
   }, [props.onGetListSales_hightlight]);
 
   const service_highlight =
     props.dataServiceHighlight.responseService_highlightReducer;
+  // console.log('data', service_highlight);
   useEffect(() => {
     props.onGetListService_highlight({limit: 4});
   }, [props.onGetListService_highlight]);
@@ -365,7 +367,8 @@ const Home = (props) => {
                       }>
                       Khuyến mãi nổi bật
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => props.navigation.navigate('Promotions')}>
                       <Text
                         style={
                           (styles.text,
@@ -679,7 +682,6 @@ const Home = (props) => {
                                       fontSize: 12,
                                     },
                                   ]}>
-                                  {' '}
                                   {styles.dynamicSort(item.price) + ' đ'}
                                 </Text>
                               </View>
@@ -781,7 +783,10 @@ const Home = (props) => {
                               marginLeft: 10,
                             }}>
                             <Text
-                              style={[styles.title, {color: '#111'}]}
+                              style={[
+                                styles.title,
+                                {color: '#111', width: '85%'},
+                              ]}
                               numberOfLines={1}>
                               {item.title}
                             </Text>
@@ -812,6 +817,9 @@ const Home = (props) => {
                     })}
                   </View>
                   <TouchableOpacity
+                    onPress={() => {
+                      Linking.openURL(`tel:${'0976874192'}`);
+                    }}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
