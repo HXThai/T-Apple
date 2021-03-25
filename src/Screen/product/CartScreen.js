@@ -54,7 +54,7 @@ const CartScreen = (props) => {
     // console.log(dataProduct);
     Alert.alert(
       'Thông báo!',
-      'Bạn chắc chắn muốn xóa săn phẩm khỏi giỏ hàng?',
+      'Bạn chắc chắn muốn xóa sản phẩm khỏi giỏ hàng?',
       [
         {text: 'Hủy'},
         {

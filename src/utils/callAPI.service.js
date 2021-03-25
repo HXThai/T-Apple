@@ -26,6 +26,7 @@ const callApiService = {
   },
   post: async (url, body) => {
     // console.log(url, '-', body);
+    console.log('body', body);
     let authorization = await storage.getItem('Authorization');
     return axios({
       method: 'post',

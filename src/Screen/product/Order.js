@@ -59,7 +59,7 @@ const Order = (props) => {
     // console.log(newData);
     const params = {
       note: note,
-      pay_method: 1,
+      pay_method: '1',
       address: address,
       products: newData,
     };
@@ -69,7 +69,18 @@ const Order = (props) => {
       if (response) {
         console.log(response);
         if (response.data.status_code === 200) {
-          Alert.alert('Thông báo!', 'Đặt hàng thành công!', [{text: 'Đồng ý'}]);
+          Alert.alert('Thông báo!', 'Đặt hàng thành công!', [
+            {
+              text: 'Đồng ý',
+              onPress: () => {
+                props.navigation.reset({
+                  index: 0,
+                  routes: [{name: 'OrderHistoryScreen'}],
+                });
+                props.navigation.navigate('Home');
+              },
+            },
+          ]);
         }
       } else {
         Alert.alert('Thông báo!', 'Đặt hàng thất bại!', [{text: 'Đồng ý'}]);

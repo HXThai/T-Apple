@@ -24,6 +24,7 @@ const API_BASE_URL = {
   GET_LIST_BOOKING: ROOT_DOMAIN + '/booking/list',
 
   NEW_ORDER: ROOT_DOMAIN + '/order/store',
+  ORDER_HISTORY: ROOT_DOMAIN + '/order/list',
 };
 
 export {API_BASE_URL, ROOT_DOMAIN};

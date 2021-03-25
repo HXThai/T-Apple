@@ -18,6 +18,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import services from '../../Redux/Service/service';
 import Reactotron from 'reactotron-react-native';
 import storage from './../asyncStorage/Storage';
+import {WebView} from 'react-native-webview';
 
 const Content = ({title, content}) => {
   return (

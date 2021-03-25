@@ -8,6 +8,12 @@ const newsService = {
     // console.log(response);
     return response;
   },
+  oderHistory: async (params) => {
+    let url = `${API_BASE_URL.ORDER_HISTORY}`;
+    let response = callApiService.get(url, params);
+    // console.log(response);
+    return response;
+  },
 };
 
 export default newsService;

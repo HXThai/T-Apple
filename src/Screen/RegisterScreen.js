@@ -8,14 +8,21 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Images from '../Theme/Images';
 import Color from '../Theme/Color';
 import styles from './Styles/RegisterScreenStyle';
 import LinearGradient from 'react-native-linear-gradient';
+import services from '../Redux/Service/registerService';
 
 const RegisterScreen = (props) => {
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   return (
     <LinearGradient
       colors={[Color.gradientStart, Color.gradientMiddle, Color.gradientEnd]}
@@ -44,7 +51,7 @@ const RegisterScreen = (props) => {
                       <Image
                         source={Images.logo}
                         // resizeMode="contain"
-                        style={{width: 120, height: 120}}
+                        style={{width: 150, height: 120}}
                       />
                     </View>
                   </View>
@@ -63,12 +70,15 @@ const RegisterScreen = (props) => {
                           }}
                           placeholder="Họ và tên"
                           placeholderTextColor="gray"
+                          onChangeText={(text) => setName(text)}
+                          value={name}
                         />
                       </View>
                     </View>
                     <View style={styles.phone}>
                       <View style={styles.textInput}>
                         <TextInput
+                          keyboardType={'number-pad'}
                           style={{
                             height: 40,
                             color: '#000000',
@@ -77,9 +87,16 @@ const RegisterScreen = (props) => {
                           }}
                           placeholder="Số điện thoại"
                           placeholderTextColor="gray"
+                          onChangeText={(text) => setPhone(text)}
+                          value={phone}
                         />
                       </View>
                     </View>
+                    {/* {phone.length < 10 ? (
+                      <Text style={{color: 'red', fontStyle: 'italic'}}>
+                        Số điện thoại không đúng!
+                      </Text>
+                    ) : null} */}
                     <View style={styles.password}>
                       <View style={styles.textInput}>
                         <TextInput
@@ -91,7 +108,9 @@ const RegisterScreen = (props) => {
                           }}
                           placeholder="Mật khẩu"
                           placeholderTextColor="gray"
-                          secureTextEntry={true}
+                          // secureTextEntry={true}
+                          onChangeText={(text) => setPassword(text)}
+                          value={password}
                         />
                       </View>
                     </View>
@@ -106,7 +125,9 @@ const RegisterScreen = (props) => {
                           }}
                           placeholder="Nhập lại mật khẩu"
                           placeholderTextColor="gray"
-                          secureTextEntry={true}
+                          // secureTextEntry={true}
+                          onChangeText={(text) => setConfirmPassword(text)}
+                          value={confirmPassword}
                         />
                       </View>
                     </View>
@@ -117,7 +138,52 @@ const RegisterScreen = (props) => {
                       }}>
                       <TouchableOpacity
                         onPress={() => {
-                          props.navigation.navigate('TabNav');
+                          // props.navigation.navigate('TabNav');
+                          const params = {
+                            name: name,
+                            phone: phone,
+                            password: password,
+                            password_confirmation: confirmPassword,
+                          };
+                          services.register(params).then(function (response) {
+                            // props.onGetList(response?.data);
+                            if (response) {
+                              console.log(response);
+                              if (response.data.status_code === 200) {
+                                Alert.alert(
+                                  'Thông báo!',
+                                  'Đặt ký tài khoản thành công!',
+                                  [
+                                    {
+                                      text: 'Đồng ý',
+                                      onPress: () => {
+                                        props.navigation.navigate(
+                                          'LoginScreen',
+                                        );
+                                      },
+                                    },
+                                  ],
+                                );
+                              } else {
+                                Alert.alert(
+                                  'Thông báo!',
+                                  response.data.message,
+                                  [
+                                    {
+                                      text: 'Đồng ý',
+                                    },
+                                  ],
+                                );
+                              }
+                            } else {
+                              Alert.alert(
+                                'Thông báo!',
+                                'Đăng ký tài khoản thất bại!',
+                                [{text: 'Đồng ý'}],
+                              );
+                              return;
+                            }
+                          });
                         }}
                         style={{
                           width: '100%',

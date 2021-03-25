@@ -90,7 +90,7 @@ const Home = (props) => {
 
   useEffect(() => {
     (async () => {
-      const res = await services.getListAccessoriesHighlight({limit: 6});
+      const res = await services.getListAccessoriesHighlight({limit: 4});
       setDataAccessories(res.data.data);
       // console.log('thaimeo', res.data.data);
     })();
@@ -134,7 +134,7 @@ const Home = (props) => {
   const service_highlight =
     props.dataServiceHighlight.responseService_highlightReducer;
   useEffect(() => {
-    props.onGetListService_highlight({limit: 6});
+    props.onGetListService_highlight({limit: 4});
   }, [props.onGetListService_highlight]);
 
   const newsData = props.dataNews.responseDataNewsHighlight;
@@ -530,8 +530,8 @@ const Home = (props) => {
                                 styles.text,
                                 {fontSize: 12, color: 'gray'},
                               ]}>
-                              Ram: {item.attribute.ram} - Rom:{' '}
-                              {item.attribute.rom}
+                              Ram: {item?.attribute?.ram} - Rom:{' '}
+                              {item?.attribute?.rom}
                             </Text>
                             <View
                               style={{
@@ -547,7 +547,7 @@ const Home = (props) => {
                                 }}>
                                 <Text
                                   style={[styles.text, {fontWeight: 'bold'}]}>
-                                  {styles.dynamicSort(item.price_sale) + ' đ'}
+                                  {styles.dynamicSort(item?.price_sale) + ' đ'}
                                 </Text>
                                 <Text
                                   style={[

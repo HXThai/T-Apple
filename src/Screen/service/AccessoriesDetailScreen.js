@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Alert,
   ActivityIndicator,
 } from 'react-native';
 import styles from '../Styles/ProductDetailStyle';
@@ -15,6 +16,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import Swiper from 'react-native-swiper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import services from '../../Redux/Service/service';
+import storage from './../asyncStorage/Storage';
 
 const Content = ({title, content}) => {
   return (
@@ -36,6 +38,8 @@ const ProductDetail = (props) => {
   const service_param = props?.route?.params?.service_param || null;
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [dataCart, setDataCart] = useState([]);
 
   // useEffect(() => {
   //   (async () => {
@@ -63,6 +67,14 @@ const ProductDetail = (props) => {
       .then(function () {
         setIsLoading(false);
       });
+
+    storage.getItem('dataCart').then((data) => {
+      // console.log(data);
+      if (data) {
+        setDataCart(data);
+      } else {
+      }
+    });
   }, []);
 
   // console.log(service_param);
@@ -221,7 +233,25 @@ const ProductDetail = (props) => {
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate('CartScreen');
+          Alert.alert(
+            'Thông báo!',
+            'Bạn chắc chắn thêm sản phẩm này vào giỏ hàng?',
+            [
+              {text: 'Hủy'},
+              {
+                text: 'Đồng ý',
+                onPress: () => {
+                  dataCart.unshift({
+                    data: data,
+                    product_amount: numberProduct,
+                  });
+                  console.log(dataCart);
+                  storage.setItem('dataCart', dataCart);
+                  props.navigation.navigate('CartScreen');
+                },
+              },
+            ],
+          );
         }}
         // onPress={() => refRBSheet.current.open()}
         style={{
